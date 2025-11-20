@@ -1,0 +1,27 @@
+<div class="login-container">
+    <div class="login-header">
+        <p>Connect to your account</p>
+    </div>
+
+    <form class="login-body" novalidate>
+        <div class="input-group">
+            <input id="email" name="email" type="email" placeholder=" " required />
+            <label for="email">Enter your email</label>
+        </div>
+
+        <div class="input-group">
+            <input id="password" name="password" type="password" placeholder=" " required />
+            <label for="password">Enter your password</label>
+        </div>
+
+        <div *ngIf="error" class="error-msg">
+            {{ error }}
+        </div>
+
+        <div class="login-button">
+            <button type="submit" [disabled]="loading">
+                {{ loading ? 'Checking...' : 'LOGIN' }}
+            </button>
+        </div>
+    </form>
+</div>

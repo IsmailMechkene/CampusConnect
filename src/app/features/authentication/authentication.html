@@ -1,0 +1,33 @@
+
+<div class="auth-container">
+    <div class="auth-header">
+        <div class="logo">
+            <img src="/header/logo.svg" alt="">
+        </div>
+        <div class="buttons">
+            <button 
+                [ngClass]="{ 'active': selectedTab === 'login' }"
+                (click)="switchTab('login')">
+                LOGIN
+            </button>
+
+            <button 
+                [ngClass]="{ 'active': selectedTab === 'signup' }"
+                (click)="switchTab('signup')">
+                SIGN UP
+            </button>
+        </div>
+    </div>
+    
+    <div class="main-auth">
+        <div *ngIf="selectedTab === 'login'" class="auth-body">
+            <app-login></app-login>
+        </div>
+
+        <div *ngIf="selectedTab === 'signup'" class="auth-body">
+            <app-sign-up></app-sign-up>
+        </div>
+    </div>
+
+
+</div>
