@@ -102,10 +102,3 @@
     transition: background-color .3s ease;
 }
 
-.error-msg {
-    color: #c62828;
-    text-align: center;
-    margin-top: 8px;
-    margin-bottom: 6px;
-    font-weight: 600;
-}

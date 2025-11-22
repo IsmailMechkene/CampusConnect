@@ -1,0 +1,74 @@
+
+
+.container {
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 140px;
+    height: 120px;
+    position: fixd;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: #F5EFEF;
+}
+
+.dynamic-island {
+    background-color: white;
+    border-radius: 25px;
+    height: 40px;
+    width: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dynamic-island ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.dynamic-island ul li {
+    list-style: none;
+    
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    
+}
+
+.dynamic-island ul li a{
+    text-decoration: none;
+    color: black;
+    font-weight: 400;
+    transition: text-decoration 0.3s ease;
+}
+
+.dynamic-island ul li a:hover {
+    text-decoration: underline;
+}
+
+.cart-island {
+    background-color: #FFA4A4;
+    border-radius: 25px;
+    height: 40px;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cart-island img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}

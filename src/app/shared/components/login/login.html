@@ -14,13 +14,9 @@
             <label for="password">Enter your password</label>
         </div>
 
-        <div *ngIf="error" class="error-msg">
-            {{ error }}
-        </div>
-
         <div class="login-button">
-            <button type="submit" [disabled]="loading">
-                {{ loading ? 'Checking...' : 'LOGIN' }}
+            <button type="submit" (click)="onLogin()">
+                LOGIN
             </button>
         </div>
     </form>
