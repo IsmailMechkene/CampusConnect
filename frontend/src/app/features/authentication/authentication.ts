@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Login } from '../../shared/components/login/login';
 import { SignUp } from '../../shared/components/sign-up/sign-up';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({

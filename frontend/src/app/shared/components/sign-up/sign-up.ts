@@ -1,77 +1,46 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { SignupService } from '../../../services/signup.service';
 
-interface User {
-    username: string;
-    email: string;
-    password: string;
-    createdAt: string;
-}
 @Component({
-    selector: 'app-sign-up',
-    templateUrl: './sign-up.html',
-    styleUrl: './sign-up.css',
-
-    imports: [
-        ReactiveFormsModule,
-        CommonModule,
-    ]
+  selector: 'app-sign-up',
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule],
+  templateUrl: './sign-up.html',
+  styleUrls: ['./sign-up.css']
 })
 export class SignUp {
-    myForm: FormGroup;
-    users: User[] = [];
+  myForm: FormGroup;
+  saving = false;
+  message = '';
 
-    constructor(private fb: FormBuilder) {
-        this.myForm = this.fb.group({
-            username: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required]
-        });
+  constructor(private fb: FormBuilder, private signupService: SignupService) {
+    this.myForm = this.fb.group({
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
 
-        this.loadUsers();
-    }
+  onSubmit() {
+    if (this.myForm.invalid) return;
 
-    private loadUsers() {
-        const raw = localStorage.getItem('usersTable');
-        if (raw) {
-            try {
-                this.users = JSON.parse(raw) as User[];
-            } catch {
-                this.users = [];
-            }
-        }
-    }
-    private saveUsers() {
-        localStorage.setItem('usersTable', JSON.stringify(this.users));
-    }
+    this.saving = true;
+    this.message = '';
 
-    addUser() {
-        if (this.myForm.invalid) return;
+    const { username, email, password } = this.myForm.value;
 
-        const { username, email, password } = this.myForm.value;
-        const createdAt = new Date().toISOString();
-
-        const user: User = {
-            username,
-            email,
-            password,
-            createdAt
-        };
-
-        this.users.push(user);
-        this.saveUsers();
-
+    this.signupService.signup({ username, email, password }).subscribe({
+      next: (res) => {
+        this.saving = false;
+        this.message = 'Account created — id: ' + (res.user?.id ?? '');
         this.myForm.reset();
-    }
-
-    // helper to show masked password if you want
-    getMasked(pwd: string) {
-        return '*'.repeat(Math.min(pwd.length, 6));
-    }
-
-    clearAll() {
-        this.users = [];
-        localStorage.removeItem('usersTable');
-    }
+      },
+      error: (err) => {
+        this.saving = false;
+        this.message = err?.error?.error ?? 'Signup failed';
+      }
+    });
+  }
 }

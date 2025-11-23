@@ -1,26 +1,26 @@
 <div class="signup-container">
-    <div class="signup-header">
-        <p>Create an account</p>
+  <div class="signup-header">
+    <p>Create an account</p>
+  </div>
+
+  <form class="signup-body" [formGroup]="myForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="input-group">
+      <input type="text" id="username" formControlName="username" placeholder=" " required />
+      <label for="username">Enter your username</label>
     </div>
 
-    <form class="signup-body" [formGroup]="myForm" novalidate>
-        <div class="input-group">
-            <input type="text" name="username" id="username" placeholder=" " formControlName="username" required />
-            <label for="email">Enter your username</label>
-        </div>
+    <div class="input-group">
+      <input id="email" type="email" formControlName="email" placeholder=" " required />
+      <label for="email">Enter your email</label>
+    </div>
 
-        <div class="input-group">
-            <input id="email" name="email" type="email" placeholder=" " formControlName="email" required />
-            <label for="email">Enter your email</label>
-        </div>
+    <div class="input-group">
+      <input id="password" type="password" formControlName="password" placeholder=" " required />
+      <label for="password">Enter your password</label>
+    </div>
 
-        <div class="input-group">
-            <input id="password" name="password" type="password" placeholder=" " formControlName="password" required />
-            <label for="password">Enter your password</label>
-        </div>
-
-        <div class="signup-button">
-            <button type="submit">SIGN UP</button>
-        </div>
-    </form>
+    <div class="signup-button">
+      <button type="submit" [disabled]="saving">SIGN UP</button>
+    </div>
+  </form>
 </div>
