@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
         Login,
         SignUp
     ],
-    templateUrl: './authentication.html',
+    templateUrl: './authentication.html',   
     styleUrls: ['./authentication.css'],
 })
 export class Authentication {

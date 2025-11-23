@@ -84,5 +84,40 @@ app.get('/users', async (req, res) => {
   }
 });
 
+// LOGIN endpoint (no hashing for now)
+app.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    // Find user by email
+    const q = 'SELECT id, username, email, password, created_at FROM users WHERE email = $1';
+    const r = await pool.query(q, [email]);
+
+    if (r.rowCount === 0) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const user = r.rows[0];
+
+    // For now compare raw passwords directly (you asked to skip hashing).
+    // In production compare hashed password with bcrypt.compare(...)
+    if (user.password !== password) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    // Remove password before returning
+    delete user.password;
+
+    return res.json({ success: true, user });
+  } catch (err) {
+    console.error('Login error:', err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
