@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SignupService } from '../../../services/signup.service';
@@ -11,6 +11,9 @@ import { SignupService } from '../../../services/signup.service';
   styleUrls: ['./sign-up.css']
 })
 export class SignUp {
+  @Output() goToLogin = new EventEmitter<void>();
+
+
   myForm: FormGroup;
   saving = false;
   message = '';
@@ -36,6 +39,8 @@ export class SignUp {
         this.saving = false;
         this.message = 'Account created — id: ' + (res.user?.id ?? '');
         this.myForm.reset();
+        alert('Signup successful! Please log in.');
+        this.goToLogin.emit();
       },
       error: (err) => {
         this.saving = false;

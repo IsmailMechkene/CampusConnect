@@ -13,11 +13,12 @@
       <input id="password" formControlName="password" type="password" placeholder=" " required />
       <label for="password">Enter your password</label>
     </div>
-
+    
+    <p *ngIf="message" style="color:tomato; width: 100%; text-align: center; margin-top: 20px;">{{ message }}</p> 
+    
     <div class="login-button">
       <button type="submit" [disabled]="loading">LOGIN</button>
     </div>
-
-    <p *ngIf="message" style="color:tomato; width: 100%; text-align: center;">{{ message }}</p>
+    
   </form>
 </div>

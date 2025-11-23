@@ -27,26 +27,22 @@ export class Login {
   }
 
   onSubmit() {
-    if (this.form.invalid) return;
-    this.loading = true;
     this.message = '';
 
+    this.loading = true;
+
     const { email, password } = this.form.value;
-    console.log('Attempt login', { email });
 
     this.auth.login({ email, password }).subscribe({
       next: (res) => {
         this.loading = false;
-        // res.user contains id, username, email, created_at (no password)
         console.log('Login success');
-        // Optionally save user to localStorage or a user service
-        // localStorage.setItem('me', JSON.stringify(res.user));
         this.router.navigate(['/home']);
       },
       error: (err) => {
         this.loading = false;
         console.error('Login failed', err);
-        this.message = err?.error?.error ?? 'Login failed';
+        this.message = err?.error?.error ?? 'Invalid email or password';
       }
     });
   }

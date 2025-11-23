@@ -2,7 +2,7 @@
 <div class="auth-container">
     <div class="auth-header">
         <div class="logo">
-            <img src="/header/logo.svg" alt="">
+            <img src="/images/logo.svg" alt="">
         </div>
         <div class="buttons">
             <button 
@@ -25,7 +25,7 @@
         </div>
 
         <div *ngIf="selectedTab === 'signup'" class="auth-body">
-            <app-sign-up></app-sign-up>
+            <app-sign-up (goToLogin)="switchTab('login')"></app-sign-up>
         </div>
     </div>
 
