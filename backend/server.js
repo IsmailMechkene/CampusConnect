@@ -2,28 +2,25 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Use DATABASE_URL from .env (Neon connection string)
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
   console.error("Missing DATABASE_URL in .env");
   process.exit(1);
 }
 
-// Create pool with SSL support (Neon requires TLS)
 const pool = new Pool({
   connectionString,
   ssl: {
-    // Node's pg needs this for some managed providers. Good for development.
     rejectUnauthorized: false
   }
 });
 
-// ensure users table exists (run once on startup)
 async function ensureTable() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -46,16 +43,59 @@ async function ensureTable() {
 
 pool.connect()
   .then(async (client) => {
-    client.release();
-    console.log("Connected to Neon Postgres");
-    await ensureTable();
+    try {
+      await ensureTable();
+      console.log("Connected to Neon Postgres and ensured tables exist");
+    } finally {
+      client.release();
+    }
   })
   .catch(err => {
     console.error("Unable to connect to Neon:", err);
     process.exit(1);
   });
 
-// Signup endpoint
+// JWT secret (fail fast if missing)
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+  console.error('Missing JWT_SECRET in .env');
+  process.exit(1);
+}
+
+function signToken(payload, opts = {}) {
+  const signOptions = Object.assign({ expiresIn: '1h' }, opts);
+  return jwt.sign(payload, jwtSecret, signOptions);
+}
+
+async function recordFailedAttempt(email) {
+  const existing = await pool.query(
+    'SELECT attempts FROM login_attempts WHERE email = $1',
+    [email]
+  );
+
+  if (existing.rowCount === 0) {
+    await pool.query(
+      'INSERT INTO login_attempts (email, attempts) VALUES ($1, 1)',
+      [email]
+    );
+  } else {
+    const attempts = existing.rows[0].attempts + 1;
+
+    if (attempts >= 5) {
+      const blockedUntil = new Date(Date.now() + 5 * 60 * 1000);
+      await pool.query(
+        'UPDATE login_attempts SET attempts = $1, blocked_until = $2 WHERE email = $3',
+        [attempts, blockedUntil, email]
+      );
+    } else {
+      await pool.query(
+        'UPDATE login_attempts SET attempts = $1 WHERE email = $2',
+        [attempts, email]
+      );
+    }
+  }
+}
+
 app.post('/signup', async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -75,7 +115,17 @@ app.post('/signup', async (req, res) => {
       [username, email, password]
     );
 
-    res.json({ success: true, user: result.rows[0] });
+    const user = result.rows[0];
+    const token = signToken({ id: user.id, email: user.email });
+
+    const safeUser = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      created_at: user.created_at
+    };
+
+    res.json({ success: true, user: safeUser, token });
   } catch (err) {
     console.error("Signup error:", err);
     res.status(500).json({ error: 'Server error' });
@@ -92,7 +142,6 @@ app.get('/users', async (req, res) => {
   }
 });
 
-// LOGIN endpoint with lockout protection
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -101,7 +150,6 @@ app.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    // 1. Check if this email is blocked
     const attemptRes = await pool.query(
       'SELECT attempts, blocked_until FROM login_attempts WHERE email = $1',
       [email]
@@ -109,8 +157,6 @@ app.post('/login', async (req, res) => {
 
     if (attemptRes.rowCount > 0) {
       const { attempts, blocked_until } = attemptRes.rows[0];
-
-      // If blocked_until is in the future → block
       if (blocked_until && new Date(blocked_until) > new Date()) {
         const minutesLeft = Math.ceil(
           (new Date(blocked_until) - new Date()) / 60000
@@ -121,9 +167,7 @@ app.post('/login', async (req, res) => {
       }
     }
 
-    // 2. Check if user exists
-    const q =
-      'SELECT id, username, email, password FROM users WHERE email = $1';
+    const q = 'SELECT id, username, email, password FROM users WHERE email = $1';
     const r = await pool.query(q, [email]);
 
     if (r.rowCount === 0) {
@@ -131,23 +175,25 @@ app.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const user = r.rows[0];  
+    const user = r.rows[0];
 
-    // (for now raw password, as requested)
     if (user.password !== password) {
       await recordFailedAttempt(email);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // 3. SUCCESS → reset attempts
-    await pool.query(
-      'DELETE FROM login_attempts WHERE email = $1',
-      [email]
-    );
+    await pool.query('DELETE FROM login_attempts WHERE email = $1', [email]);
 
-    delete user.password;
+    const safeUser = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      created_at: user.created_at || null
+    };
 
-    return res.json({ success: true, user });
+    const token = signToken({ id: user.id, email: user.email });
+
+    return res.json({ success: true, user: safeUser, token });
 
   } catch (err) {
     console.error('Login error:', err);
@@ -155,39 +201,32 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Function that handles failed attempts
-async function recordFailedAttempt(email) {
-  const existing = await pool.query(
-    'SELECT attempts FROM login_attempts WHERE email = $1',
-    [email]
-  );
+function authenticateToken(req, res, next) {
+  const auth = req.headers['authorization'];
+  if (!auth) return res.status(401).json({ error: 'No token provided' });
+  const parts = auth.split(' ');
+  if (parts.length !== 2) return res.status(401).json({ error: 'Malformed token' });
+  const scheme = parts[0];
+  const token = parts[1];
+  if (!/^Bearer$/i.test(scheme)) return res.status(401).json({ error: 'Malformed token' });
 
-  if (existing.rowCount === 0) {
-    // insert first attempt
-    await pool.query(
-      'INSERT INTO login_attempts (email, attempts) VALUES ($1, 1)',
-      [email]
-    );
-  } else {
-    const attempts = existing.rows[0].attempts + 1;
-
-    if (attempts >= 5) {
-      // block for 5 minutes
-      const blockedUntil = new Date(Date.now() + 5 * 60 * 1000);
-      await pool.query(
-        'UPDATE login_attempts SET attempts = $1, blocked_until = $2 WHERE email = $3',
-        [attempts, blockedUntil, email]
-      );
-    } else {
-      // just increment attempts
-      await pool.query(
-        'UPDATE login_attempts SET attempts = $1 WHERE email = $2',
-        [attempts, email]
-      );
-    }
-  }
+  jwt.verify(token, jwtSecret, (err, decoded) => {
+    if (err) return res.status(401).json({ error: 'Invalid or expired token' });
+    req.user = decoded;
+    next();
+  });
 }
 
+app.get('/me', authenticateToken, async (req, res) => {
+  try {
+    const r = await pool.query('SELECT id, username, email, created_at FROM users WHERE id = $1', [req.user.id]);
+    if (r.rowCount === 0) return res.status(404).json({ error: 'User not found' });
+    res.json(r.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
