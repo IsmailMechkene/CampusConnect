@@ -1,1 +1,11 @@
-<p>trending-section works!</p>
+<div class="section">
+    <div class="container">
+        <h2 class="section-title">Trending Products</h2>
+        <div class="trending-products-grid">
+            <app-product-component 
+                *ngFor="let product of trendingProducts" 
+                [product]="product">
+            </app-product-component>
+        </div>
+    </div>
+</div>
