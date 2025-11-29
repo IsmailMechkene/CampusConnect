@@ -1,4 +1,6 @@
 require('dotenv').config();
+console.log('DATABASE_URL exists:', !!process.env.DATABASE_URL);
+console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
@@ -17,8 +19,10 @@ if (!connectionString) {
 const pool = new Pool({
   connectionString,
   ssl: {
-    rejectUnauthorized: false
-  }
+    rejectUnauthorized: false,
+    require: true
+  },
+  connectionTimeoutMillis: 10000,
 });
 
 async function ensureTable() {
@@ -98,16 +102,21 @@ async function recordFailedAttempt(email) {
 
 app.post('/signup', async (req, res) => {
   try {
+    console.log('Signup request body:', req.body); // Add this
+    
     const { username, email, password } = req.body;
     if (!username || !email || !password) {
       return res.status(400).json({ error: "Missing fields" });
     }
 
+    console.log('Checking if email exists...'); // Add this
     const exists = await pool.query('SELECT id FROM users WHERE email=$1', [email]);
+    
     if (exists.rowCount > 0) {
       return res.status(400).json({ error: 'Email already exists' });
     }
 
+    console.log('Inserting new user...'); // Add this
     const result = await pool.query(
       `INSERT INTO users (username, email, password)
        VALUES ($1, $2, $3)
@@ -115,22 +124,13 @@ app.post('/signup', async (req, res) => {
       [username, email, password]
     );
 
-    const user = result.rows[0];
-    const token = signToken({ id: user.id, email: user.email });
-
-    const safeUser = {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      created_at: user.created_at
-    };
-
-    res.json({ success: true, user: safeUser, token });
+    console.log('User created:', result.rows[0]); // Add this
+    // ... rest of code
   } catch (err) {
-    console.error("Signup error:", err);
+    console.error("Signup error:", err); // This should show the actual error
     res.status(500).json({ error: 'Server error' });
   }
-});
+}); 
 
 app.get('/users', async (req, res) => {
   try {

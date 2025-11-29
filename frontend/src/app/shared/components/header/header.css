@@ -6,25 +6,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 140px;
+    padding: 20px 200px;
     height: 120px;
     position: fixd;
     top: 0;
     width: 100%;
     z-index: 100;
-    background-color: #F5EFEF;
+    background-color: transparent;
 }
 
 .dynamic-island {
-    background-color: white;
-    border-radius: 25px;
     height: 40px;
-    width: 560px;
+    width: 700px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0px 40px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .dynamic-island ul {

@@ -1,0 +1,43 @@
+
+.section {
+    height: fit-content;
+    padding: 0px 120px;
+    background-color: #FADED2;
+}
+
+
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 400px;
+}
+
+.benefit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    height: 250px;
+    width: 33%;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+#with-divider {
+    border-left: 1px solid rgb(131, 131, 131);
+    border-right: 1px solid rgb(131, 131, 131);
+}
+
+.benefit p {
+    font-family: "Kalnia", sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.benefit span {
+    font-family: "Kanit", sans-serif;
+    font-weight: 300;
+    font-size: 1.1rem;
+}
