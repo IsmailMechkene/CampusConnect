@@ -1,1 +1,40 @@
-<p>shop-component works!</p>
+
+<div class="card-container">
+    <div class="card" [ngStyle]="{'background-color': background}">
+        <div class="header">
+            <div class="category">{{ category }}</div>
+            <div class="heart-icon" (click)="toggleFavorite()" [class.active]="isFavorite">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="brand-section">
+                <div>
+                    <h1 class="brand-name">{{ brandName }}</h1>
+                    <p class="description">{{ description }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tags">
+            <div class="tag" *ngFor="let tag of tags">
+                {{ tag }}
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="rating">
+            <span class="rating-label">Rating:</span>
+            <div class="stars">
+                <span class="star" *ngFor="let star of [1,2,3,4,5]">★</span>
+            </div>
+        </div>
+        <button class="explore-btn" (click)="onExploreShop()">
+            Explore Shop →
+        </button>
+    </div>
+</div>

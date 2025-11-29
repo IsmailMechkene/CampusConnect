@@ -1,0 +1,159 @@
+.card-container {
+    background: white;
+    border-radius: 30px;
+    padding:  15px 10px 20px 10px;
+    max-width: 550px;
+    width: 100%;
+}
+
+.card {
+    border-radius: 30px;
+    padding: 30px;
+    position: relative;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.category {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 7px 30px;
+    border-radius: 50px;
+    font-family: 'Kalnia', serif;
+    font-size: 1.8em;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.heart-icon {
+    background: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.heart-icon.active svg {
+    fill: #dc143c;
+    stroke: #dc143c;
+}
+
+.heart-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: #1a1a1a;
+    fill: none;
+    stroke-width: 2;
+    transition: all 0.3s;
+}
+
+.content {
+    margin-bottom: 60px;
+}
+
+.brand-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.brand-name {
+    font-family: 'Kalnia', serif;
+    font-size: 56px;
+    font-weight: 500;
+    color: #1a1a1a;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.description {
+    font-family: 'Kanit', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: #1a1a1a;
+    line-height: 1.6;
+    max-width: 400px;
+}
+
+.tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background: white;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1a1a1a;
+    cursor: default;
+    font-family: 'Kalnia', serif;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.rating {
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rating-label { 
+    font-family: 'Kalnia', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.stars {
+    display: flex;
+    gap: 1px;
+}
+
+.star {
+    color: #B83556;
+    font-size: 24px;
+}
+
+.explore-btn {
+    background: linear-gradient(135deg, #f8c4d8 0%, #f0a8c8 100%);
+    color: #1a1a1a;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-family: 'Kalnia', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    margin-right: 30px;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.4s ease;
+}
+
+.explore-btn:hover {
+    background: linear-gradient(135deg, #f0a8c8 0%, #d494b1 100%);
+}

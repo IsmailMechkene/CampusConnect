@@ -7,12 +7,22 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px 200px;
-    height: 120px;
+    height: 90px;
     position: fixd;
     top: 0;
     width: 100%;
     z-index: 100;
-    background-color: transparent;
+    background-color: #f5efefa4;
+    transition: transform 0.3s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(12px);
+
+  /* Smooth animation for hide/show */
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.container.hidden {
+  transform: translateY(-100%);
 }
 
 .dynamic-island {
