@@ -1,22 +1,26 @@
 .section {
-    height: 130vh;
+    height: fit-content;
     width: 100%;
     background-color: #F5EFEF;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 20px 100px;
 }
 
 .container {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    overflow: hidden;
     align-items: start;
     justify-content: center;
     justify-content: center;
     background-color: white;    
     border-radius: 30px;
+    padding: 50px 70px;
 }
 
 .trending-products-grid {
@@ -25,5 +29,13 @@
     align-items: center;
     justify-content: center;
     gap: 50px;
-    flex-wrap: wrap
+    flex-wrap: wrap;
+    margin-top: 40px;
+    
+}
+
+.sub-container h2 {
+    font-family: "Kalnia", sans-serif;
+    font-size: 2.5em;
+    font-weight: 500;
 }
