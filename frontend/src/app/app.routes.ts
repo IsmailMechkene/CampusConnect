@@ -28,6 +28,12 @@ export const routes: Routes = [
         loadComponent: () => import('./features/product-preview/product-preview').then(m => m.ProductPreview),
         canActivate: [AuthGuard]
     },
+
+    {
+        path: 'shops/:id',
+        loadComponent: () => import('./features/shops/shops').then(m => m.Shops),
+        canActivate: [AuthGuard]
+    },
     {
         path: '**',
         redirectTo: 'login'

@@ -1,10 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Header } from '../header/header';
+import { Footer } from '../footer/footer';
 
 @Component({
     selector: 'app-shop-component',
     imports: [
-        CommonModule
+        CommonModule,
+        RouterModule,
     ],
     templateUrl: './shop-component.html',
     styleUrl: './shop-component.css',
@@ -23,6 +27,15 @@ export class ShopComponent {
     rating: number = 5;
     isFavorite: boolean = false;
 
+
+    shopId: string = '';
+
+    constructor(private route: ActivatedRoute) {}
+
+    ngOnInit() {
+        this.shopId = this.route.snapshot.paramMap.get('id')!;
+        console.log(this.shopId);
+    }
     toggleFavorite(): void {
         this.isFavorite = !this.isFavorite;
     }
