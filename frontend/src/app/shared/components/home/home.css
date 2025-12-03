@@ -19,6 +19,7 @@
 }
 
 .legend {
+    font-family: "kalnia", sans-serif;
     font-size: 8rem;
     font-weight: 500;
     word-spacing: 30px;
@@ -27,9 +28,9 @@
 
 .sub-legend {
     font-size: 40px;
-    font-weight: 100;
+    font-weight: 200;
     letter-spacing: 2px;
-    margin-top: -30px;
+    margin-top: -20px;
 }
 
 .description {
@@ -45,7 +46,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #B77466;
+    background-color: #B83556;
     color: white;
     height: 50px;
     padding: 15px 40px;
@@ -58,7 +59,7 @@
 }
 
 .explore-btn:hover {
-    background-color: #A05C4E;
+    background-color: #942b45;
 }
 
 .image-section {
