@@ -30,7 +30,7 @@ export class ShopComponent {
 
     shopId: string = '';
 
-    constructor(private route: ActivatedRoute) {}
+    constructor(private route: ActivatedRoute) { }
 
     ngOnInit() {
         this.shopId = this.route.snapshot.paramMap.get('id')!;
