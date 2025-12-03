@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 export interface Product {
   id: number;
@@ -12,7 +13,9 @@ export interface Product {
 }
 @Component({
   selector: 'app-product-component',
-  imports: [],
+  imports: [
+    RouterModule,  
+  ],
   templateUrl: './product-component.html',
   styleUrl: './product-component.css',
 })
@@ -20,8 +23,14 @@ export class ProductComponent {
   @Input() product!: Product;
   isFavorited = false;
 
+  productId: string = '';
+
+  constructor(private route: ActivatedRoute) {}
+
   ngOnInit() {
     this.isFavorited = this.product.isFavorite || false;
+    this.productId = this.route.snapshot.paramMap.get('id')!;
+    console.log(this.productId);
   }
 
   toggleFavorite() {

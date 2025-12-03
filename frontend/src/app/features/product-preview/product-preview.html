@@ -1,0 +1,162 @@
+
+<app-header></app-header>
+<div class="product-section">
+    <div class="breadcrumb">
+        <a href="#" class="breadcrumb-link">Home</a> / 
+        <a href="#" class="breadcrumb-link">Accessories</a> / 
+        <span>{{ product.name }}</span>
+    </div>
+
+    <div class="product-container">
+        <!-- Product Image Gallery -->
+        <div class="image-gallery">
+            <div class="main-image">
+                <img [src]="selectedImage()" [alt]="product.name" />
+                <button class="wishlist-btn">♡</button>
+            </div>
+            <div class="thumbnail-container">
+                @for (img of product.images; track img) {
+                    <img 
+                    [src]="img" 
+                    [alt]="product.name"
+                    class="thumbnail"
+                    [class.active]="selectedImage() === img"
+                    (click)="selectedImage.set(img)"
+                    />
+                    }
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="product-details">
+            <div class="category-badge">{{ product.category }}</div>
+            <h1 class="product-title">{{ product.name }}</h1>
+            <div class="rating">
+                <span class="stars">★★★★★</span>
+                <span class="rating-text">({{ product.reviews }} reviews)</span>
+            </div>
+
+            <div class="price-section">
+                <span class="current-price">\${{ product.price }}</span>
+                @if (product.originalPrice) {
+                    <span class="original-price">\${{ product.originalPrice }}</span>
+                    <span class="discount">-{{ calculateDiscount() }}%</span>
+                }
+            </div>
+
+            <p class="product-description">{{ product.description }}</p>
+
+            <!-- Variant Selection -->
+            <div class="variants">
+                <label class="variant-label">Color:</label>
+                <div class="variant-options">
+                    @for (color of product.colors; track color) {
+                        <button 
+                            class="color-btn"
+                            [class.active]="selectedColor() === color"
+                            [style.background-color]="color"
+                            (click)="selectedColor.set(color)"
+                        ></button>
+                    }
+                </div>
+            </div>
+
+            <div class="variants">
+                <label class="variant-label">Size:</label>
+                <div class="variant-options">
+                    @for (size of product.sizes; track size) {
+                        <button 
+                            class="size-btn"
+                            [class.active]="selectedSize() === size"
+                            (click)="selectedSize.set(size)"
+                        >{{ size }}</button>
+                    }
+                </div>
+            </div>
+
+            <!-- Quantity Selector -->
+            <div class="quantity-section">
+                <label class="variant-label">Quantity:</label>
+                <div class="quantity-control">
+                        <button 
+                            class="qty-btn"
+                            (click)="decreaseQuantity()"
+                            [disabled]="quantity() <= 1"
+                        >−</button>
+                        <span class="qty-display">{{ quantity() }}</span>
+                        <button 
+                            class="qty-btn"
+                            (click)="increaseQuantity()"
+                            [disabled]="quantity() >= product.stock"
+                        >+</button>
+                </div>
+                <span class="stock-info">{{ product.stock }} available</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="add-to-cart-btn" (click)="addToCart()">
+                    Add to Cart
+                </button>
+                <button class="buy-now-btn" (click)="buyNow()">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="additional-info">
+                <div class="info-item">
+                    <span class="info-icon">🚚</span>
+                    <div>
+                        <strong>Free Delivery</strong>
+                        <p>On campus delivery available</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">↩️</span>
+                    <div>
+                        <strong>Easy Returns</strong>
+                        <p>7-day return policy</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">✓</span>
+                    <div>
+                        <strong>Student Verified</strong>
+                        <p>Sold by verified campus vendor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Tabs -->
+    <div class="product-tabs">
+        <div class="tab-buttons">
+            @for (tab of tabs; track tab) {
+                <button 
+                    class="tab-btn"
+                    [class.active]="activeTab() === tab"
+                    (click)="activeTab.set(tab)"
+                >{{ tab }}</button>
+            }
+        </div>
+        <div class="tab-content">
+            @if (activeTab() === 'Description') {
+                <p>{{ product.fullDescription }}</p>
+            }
+            @if (activeTab() === 'Specifications') {
+                <ul class="specs-list">
+                    @for (spec of product.specifications; track spec.label) {
+                        <li><strong>{{ spec.label }}:</strong> {{ spec.value }}</li>
+                    }
+                </ul>
+            }
+            @if (activeTab() === 'Reviews') {
+                <p>Reviews coming soon...</p>
+            }
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

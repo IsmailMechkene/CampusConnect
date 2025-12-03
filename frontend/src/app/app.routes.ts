@@ -24,6 +24,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: 'marketplace/product/:id',
+        loadComponent: () => import('./features/product-preview/product-preview').then(m => m.ProductPreview),
+        canActivate: [AuthGuard]
+    },
+    {
         path: '**',
         redirectTo: 'login'
     }
