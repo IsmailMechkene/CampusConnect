@@ -12,7 +12,7 @@ export const routes: Routes = [
     {
         path: 'login',
         component: Authentication
-    },
+    }, 
     {
         path: 'home',
         loadComponent: () => import('./features/main-home/main-home').then(m => m.MainHome),
