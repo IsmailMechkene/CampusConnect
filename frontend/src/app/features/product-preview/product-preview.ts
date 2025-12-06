@@ -1,6 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { Header } from '../../shared/components/header/header';
 import { Footer } from '../../shared/components/footer/footer';
+import { CartItem } from '../../shared/models/cart-item.model';
+import { CartService } from '../../services/cart.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,6 +17,9 @@ import { Footer } from '../../shared/components/footer/footer';
 })
 export class ProductPreview {
 
+  constructor(private cartService: CartService, private router: Router) { }
+
+  // TODO: integrate with backend
   quantity = signal(1);
   selectedImage = signal('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600');
   selectedColor = signal('#E91E63');
@@ -23,6 +29,7 @@ export class ProductPreview {
   tabs = ['Description', 'Specifications', 'Reviews'];
 
   product = {
+    id : 20,
     name: 'Cat Bracelet',
     category: 'Accessories',
     price: 12.99,
@@ -44,7 +51,9 @@ export class ProductPreview {
       { label: 'Length', value: 'Adjustable 6-8 inches' },
       { label: 'Weight', value: '15g' },
       { label: 'Care', value: 'Avoid water exposure' }
-    ]
+    ],
+    // TODO: modify shopName when integrating with backend
+    shopName: 'Bracelet shop'
   };
 
   increaseQuantity() {
@@ -63,23 +72,46 @@ export class ProductPreview {
     return Math.round(((this.product.originalPrice! - this.product.price) / this.product.originalPrice!) * 100);
   }
 
-  addToCart() {
-    console.log('Added to cart:', {
-      product: this.product.name,
+  onAddToCart(event: Event): void {
+    event.stopPropagation();
+    
+    // Create cart item from product
+    const cartItem: CartItem = {
+      id: `cart-${Date.now()}-${this.product.id}`,
+      productId: this.product.id.toString(), // TODO: aggree on productId type with backend
+      name: this.product.name,
+      description: this.product.category,
+      image: this.product.images[0],
+      unitPrice: this.product.price,
       quantity: this.quantity(),
-      color: this.selectedColor(),
-      size: this.selectedSize()
-    });
-    alert(`${this.quantity()} item(s) added to cart!`);
+      shopName: this.product.shopName
+    };
+
+    // Add to cart
+    this.cartService.addToCart(cartItem);
+
+    // Show success message
+    alert(`${this.product.name} added to cart!`);
   }
 
   buyNow() {
-    console.log('Buy now:', {
-      product: this.product.name,
+    // Create cart item from product
+    const cartItem: CartItem = {
+      id: `cart-${Date.now()}-${this.product.id}`,
+      productId: this.product.id.toString(), // TODO: aggree on productId type with backend
+      name: this.product.name,
+      description: this.product.category,
+      image: this.product.images[0],
+      unitPrice: this.product.price,
       quantity: this.quantity(),
-      color: this.selectedColor(),
-      size: this.selectedSize()
-    });
+      shopName: this.product.shopName
+    };
+
+    // Add to cart
+    this.cartService.addToCart(cartItem);
+
+    // Show success message
+    this.router.navigate(['/checkout']);
     alert('Proceeding to checkout...');
   }
 }
