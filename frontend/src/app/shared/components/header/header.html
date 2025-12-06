@@ -1,5 +1,5 @@
 <div class="container" [class.hidden]="hideHeader">
-    <div class="logo">
+    <div class="logo" [routerLink]="['/']">
         <img src="/images/logo.svg" alt="">
     </div>
 
@@ -16,8 +16,12 @@
     </div>
     <div class="cart-island-section">
         <div class="cart-island">
-            <img src="/icons/header/heart.svg" alt="like">
-            <img src="/icons/header/shopping-cart.svg" alt="cart">
+            <img src="/icons/header/heart.svg" alt="like" (click)="navigateToFavorites()">
+            <button class="icon-btn cart-btn" (click)="navigateToCart()">
+                <img src="/icons/header/shopping-cart.svg" alt="cart">  
+                <span *ngIf="cartItemCount > 0" class="cart-badge">{{ cartItemCount }}</span> 
+            </button>
+
         </div>
     </div>
 
