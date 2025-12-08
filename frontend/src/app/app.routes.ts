@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { Authentication } from './features/authentication/authentication';
 import { AuthGuard } from './services/auth.guard';
 
-
 export const routes: Routes = [
     {
         path: '',
@@ -22,6 +21,23 @@ export const routes: Routes = [
         path: 'marketplace',
         loadComponent: () => import('./features/marketplace/marketplace').then(m => m.Marketplace),
         canActivate: [AuthGuard]
+    },
+    {
+        path: 'marketplace/product/:id',
+        loadComponent: () => import('./features/product-preview/product-preview').then(m => m.ProductPreview),
+        canActivate: [AuthGuard]
+    },
+
+    {
+        path: 'shops/:id',
+        loadComponent: () => import('./features/shops/shops').then(m => m.Shops),
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'checkout',
+        loadComponent: () => import('./features/checkout/checkout').then(m => m.Checkout),
+        canActivate: [AuthGuard],
+        title: 'Shopping Cart'
     },
     {
         path: '**',

@@ -25,12 +25,15 @@
         
         <div class="product-footer">
             <span class="price">{{ product.price.toFixed(2) }} {{ product.currency }}</span>
-            <button class="see-product-btn" (click)="onSeeProduct()">
+            <button class="see-product-btn" (click)="onSeeProduct()" 
+                    [routerLink]="['/marketplace/product', product.id]">
                 See Product
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" 
+                    stroke="currentColor" stroke-width="2">
                     <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
             </button>
+
         </div>
     </div>
 </div>

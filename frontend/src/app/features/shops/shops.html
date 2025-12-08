@@ -1,0 +1,113 @@
+
+<div class="shops-page">
+    <app-header></app-header>
+  <div class="shop-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <h1 class="hero-title">Bracelets Shop</h1>
+      <p class="hero-subtitle">Handmade bracelets for every taste</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Sidebar Filters -->
+      <aside class="sidebar">
+        <!-- Category Filter -->
+        <div class="filter-section">
+          <h3 class="filter-title">Filter by</h3>
+
+          <div class="filter-group">
+            <h4 class="filter-subtitle">Category</h4>
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                [(ngModel)]="selectedCategories.valentine"
+                (change)="updateFilters()"
+              />
+              <span>Valentine</span>
+            </label>
+            <label class="checkbox-label" [class.checked]="selectedCategories.colorful">
+              <input
+                type="checkbox"
+                [(ngModel)]="selectedCategories.colorful"
+                (change)="updateFilters()"
+              />
+              <span>Colorful</span>
+            </label>
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                [(ngModel)]="selectedCategories.superhero"
+                (change)="updateFilters()"
+              />
+              <span>Superhero</span>
+            </label>
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                [(ngModel)]="selectedCategories.minecraft"
+                (change)="updateFilters()"
+              />
+              <span>Minecraft</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Price Filter -->
+        <div class="filter-section">
+          <h4 class="filter-subtitle">Price</h4>
+          <div class="price-range">
+            <span>\${{ priceRange()[0] }} DT - \${{ priceRange()[1] }} DT</span>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              [value]="priceRange()[1]"
+              (input)="updatePriceRange($event)"
+              class="price-slider"
+            />
+          </div>
+        </div>
+
+        <!-- Availability Filter -->
+        <div class="filter-section">
+          <h4 class="filter-subtitle">Availability</h4>
+          <label class="checkbox-label" [class.checked]="availability.inStock">
+            <input type="checkbox" [(ngModel)]="availability.inStock" (change)="updateFilters()" />
+            <span>In stock</span>
+          </label>
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              [(ngModel)]="availability.comingSoon"
+              (change)="updateFilters()"
+            />
+            <span>Coming soon</span>
+          </label>
+        </div>
+      </aside>
+
+      <!-- Products Grid -->
+      <div class="products-section">
+        <!-- Active Filters -->
+        <div class="active-filters">
+          <span class="filters-label">Filtered by:</span>
+          @for (filter of activeFilters(); track filter) {
+          <span class="filter-tag">
+            {{ filter }}
+            <button class="remove-filter" (click)="removeFilter(filter)">×</button>
+          </span>
+          }
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid">
+          @for (product of Products; track $index) {
+            <app-product-component [product]="product"></app-product-component>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,128 @@
+<app-header></app-header>
+<div class="checkout-container">
+  <div class="container">
+    <!-- Page Title -->
+    <h1 class="page-title">Shopping cart</h1>
+
+    <!-- Main Content Grid -->
+    <div class="checkout-grid">
+      <!-- Cart Items Section -->
+      <div class="cart-section">
+        <!-- Cart Header -->
+        <div class="cart-header">
+          <div class="header-product">Product</div>
+          <div class="header-price">Unit Price</div>
+          <div class="header-quantity">Quantity</div>
+          <div class="header-subtotal">Subtotal</div>
+        </div>
+
+        <!-- Cart Items List -->
+        <div class="cart-items">
+          <!-- Empty Cart Message -->
+          <div *ngIf="isCartEmpty()" class="empty-cart">
+            <svg
+              width="80"
+              height="80"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <h3>Your cart is empty</h3>
+            <p>Add some products to get started!</p>
+            <button class="continue-btn" (click)="continueShopping()">Start Shopping</button>
+          </div>
+
+          <!-- Cart Item -->
+          <div *ngFor="let item of cartItems" class="cart-item">
+            <!-- Product Info -->
+            <div class="item-product">
+              <img [src]="item.image" [alt]="item.name" class="item-image" />
+              <div class="item-info">
+                <h3 class="item-name">{{ item.name }}</h3>
+                <p class="item-description">{{ item.description }}</p>
+              </div>
+            </div>
+
+            <!-- Unit Price -->
+            <div class="item-price">{{ item.unitPrice.toFixed(2) }} DT</div>
+
+            <!-- Quantity Controls -->
+            <div class="item-quantity">
+              <div class="quantity-controls">
+                <button
+                  class="quantity-btn"
+                  (click)="decreaseQuantity(item.id)"
+                  [disabled]="item.quantity <= 1"
+                >
+                  -
+                </button>
+                <span class="quantity-value">{{ item.quantity }}</span>
+                <button class="quantity-btn" (click)="increaseQuantity(item.id)">+</button>
+              </div>
+            </div>
+
+            <!-- Subtotal -->
+            <div class="item-subtotal">{{ getItemSubtotal(item).toFixed(2) }} DT</div>
+
+            <!-- Remove Button -->
+            <button class="remove-btn" (click)="removeItem(item.id)" aria-label="Remove item">
+              ×
+            </button>
+          </div>
+        </div>
+
+        <!-- Cart Footer Actions -->
+        <div class="cart-footer" *ngIf="!isCartEmpty()">
+          <button class="continue-shopping-link" (click)="continueShopping()">
+            &lt; Continue Shopping
+          </button>
+          <button class="clear-cart-btn" (click)="clearCart()">Clear shopping cart</button>
+        </div>
+      </div>
+
+      <!-- Order Summary Section -->
+      <div class="summary-section" *ngIf="!isCartEmpty()">
+        <div class="summary-card">
+          <h2 class="summary-title">Order summary</h2>
+
+          <div class="summary-divider"></div>
+
+          <!-- Summary Items -->
+          <div class="summary-items">
+            <div class="summary-row">
+              <span class="summary-label">Items</span>
+              <span class="summary-value">{{ cartSummary.itemCount }}</span>
+            </div>
+
+            <div class="summary-row">
+              <span class="summary-label">Subtotal</span>
+              <span class="summary-value">{{ cartSummary.subtotal.toFixed(2) }} DT</span>
+            </div>
+
+            <div class="summary-row">
+              <span class="summary-label">Shipping</span>
+              <span class="summary-value">{{ cartSummary.shipping.toFixed(2) }} DT</span>
+            </div>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <!-- Total -->
+          <div class="summary-total">
+            <span class="total-label">Total</span>
+            <span class="total-value">{{ cartSummary.total.toFixed(2) }} DT</span>
+          </div>
+
+          <!-- Checkout Button -->
+          <button class="checkout-btn" (click)="proceedToCheckout()">CHECKOUT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
