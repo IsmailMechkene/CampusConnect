@@ -1,35 +1,82 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
-export interface LoginPayload { email: string; password: string; }
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface SignupPayload {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: {
+    id: number;
+    email: string;
+    fullName: string;
+  };
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private baseUrl = '/api';
-    private storageKey = 'auth_token';
+  private baseUrl = '/api';
+  private storageKey = 'auth_token';
+  private userKey = 'auth_user';
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-    login(payload: LoginPayload): Observable<any> {
-        return this.http.post<any>(`${this.baseUrl}/login`, payload)
-            .pipe(tap(res => {
-                if (res && res.token) {
-                    localStorage.setItem(this.storageKey, res.token);
-                }
-            }));
-    }
+  // Inscription
+  signup(payload: SignupPayload): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.baseUrl}/signup`, payload).pipe(
+      tap((res) => {
+        this.setSession(res);
+      })
+    );
+  }
 
-    logout(): void {
-        localStorage.removeItem(this.storageKey);
-    }
+  // Connexion
+  login(payload: LoginPayload): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, payload).pipe(
+      tap((res) => {
+        this.setSession(res);
+      })
+    );
+  }
 
-    getToken(): string | null {
-        return localStorage.getItem(this.storageKey);
-    }
+  private setSession(authResult: AuthResponse): void {
+    localStorage.setItem(this.storageKey, authResult.token);
+    localStorage.setItem(this.userKey, JSON.stringify(authResult.user));
+  }
 
-    isLoggedIn(): boolean {
-        const t = this.getToken();
-        return !!t;
-    }
+  logout(): void {
+    localStorage.removeItem(this.storageKey);
+    localStorage.removeItem(this.userKey);
+    this.router.navigate(['/login']);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.storageKey);
+  }
+
+  getUser(): any {
+    const user = localStorage.getItem(this.userKey);
+    return user ? JSON.parse(user) : null;
+  }
+
+  isLoggedIn(): boolean {
+    const token = this.getToken();
+    // Optionnel : vérifier l'expiration du token
+    return !!token;
+  }
+
+  // Pour rafraîchir les données utilisateur
+  refreshUser(): Observable<AuthResponse> {
+    return this.http.get<AuthResponse>(`${this.baseUrl}/me`);
+  }
 }
