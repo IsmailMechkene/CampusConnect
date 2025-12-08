@@ -77,22 +77,98 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+async function checkLoginAttempts(email: string) {
+  const record = await prisma.login_attempts.findUnique({
+    where: { email },
+  });
+
+  // Aucun enregistrement → OK
+  if (!record) return { allowed: true };
+
+  // Si bloqué
+  if (record.blocked_until && new Date(record.blocked_until) > new Date()) {
+    return {
+      allowed: false,
+      remaining: Math.ceil(
+        (new Date(record.blocked_until).getTime() - Date.now()) / 1000
+      ),
+    };
+  }
+
+  return { allowed: true };
+}
+
+async function incrementLoginAttempts(email: string) {
+  const record = await prisma.login_attempts.findUnique({ where: { email } });
+
+  if (!record) {
+    // Premier échec
+    await prisma.login_attempts.create({
+      data: {
+        email,
+        attempts: 1,
+      },
+    });
+    return;
+  }
+
+  // Si déjà 2 échecs → bloquer
+  if (record.attempts + 1 >= 3) {
+    await prisma.login_attempts.update({
+      where: { email },
+      data: {
+        attempts: 3,
+        blocked_until: new Date(Date.now() + 60 * 1000), // 1 minute
+      },
+    });
+    return;
+  }
+
+  // Sinon incrémenter simplement
+  await prisma.login_attempts.update({
+    where: { email },
+    data: { attempts: record.attempts + 1 },
+  });
+}
+
+async function resetLoginAttempts(email: string) {
+  await prisma.login_attempts
+    .delete({
+      where: { email },
+    })
+    .catch(() => {}); // ignore si n'existe pas
+}
+
 router.post("/login", async (req, res) => {
   try {
     const { email, password }: LoginBody = req.body;
 
-    // Validation
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required" });
+      return res.status(400).json({ message: "Email and password required" });
+    }
+
+    // Vérifier si l'utilisateur est bloqué
+    const attemptStatus = await checkLoginAttempts(email);
+    if (!attemptStatus.allowed) {
+      return res.status(429).json({
+        message: `Too many attempts. Try again in ${attemptStatus.remaining} seconds`,
+      });
     }
 
     const user = await prisma.users.findUnique({ where: { email } });
-    if (!user) return res.status(401).json({ message: "Invalid credentials" });
+    if (!user) {
+      await incrementLoginAttempts(email);
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
     const valid = await bcrypt.compare(password, user.password);
-    if (!valid) return res.status(401).json({ message: "Invalid credentials" });
+    if (!valid) {
+      await incrementLoginAttempts(email);
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Login OK → reset attempts
+    await resetLoginAttempts(email);
 
     const jwtToken = jwt.sign(
       { id: user.id, email: user.email },
