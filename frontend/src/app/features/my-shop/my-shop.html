@@ -1,1 +1,15 @@
-<p>my-shop works!</p>
+<div class="shop-section">
+    <app-header></app-header>
+
+    <div class="my-shop-container">
+        @if (!hasShop) {
+            <app-create-shop></app-create-shop>
+        }
+
+        @if (hasShop) {
+            <app-inspect-shop></app-inspect-shop>
+        }
+
+    </div>
+    <app-footer></app-footer>
+</div>

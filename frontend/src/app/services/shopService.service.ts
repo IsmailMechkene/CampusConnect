@@ -2,14 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
-export interface ShopStatusResponse {
-  hasShop: boolean;
-  shop?: {
-    id: string;
-    name: string;
-  };
-}
-
 export interface CreateShopPayload {
   name: string;
   description?: string;
@@ -17,9 +9,15 @@ export interface CreateShopPayload {
 
 export interface Shop {
   id: string;
-  name: string;
-  description?: string;
+  name: string | null;
+  description?: string | null;
   owner_id: string;
+  created_at?: string;
+}
+
+export interface ShopStatusResponse {
+  hasShop: boolean;
+  shop?: Shop | null;
 }
 
 @Injectable({ providedIn: 'root' })

@@ -1,0 +1,135 @@
+<div class="page">
+  <section class="form-card">
+    <header class="hero">
+      <h1>Create your Boutique</h1>
+    </header>
+
+    <!-- Banner holder (editable) -->
+    <div class="banner-holder editable" (click)="bannerInput.click()" tabindex="0">
+      <input #bannerInput type="file" accept="image/*" (change)="onBannerChange($event)" hidden />
+      <div
+        class="banner-image"
+        [ngStyle]="{ 'background-image': bannerPreview ? 'url(' + bannerPreview + ')' : 'none' }"
+      >
+        <div class="banner-placeholder" *ngIf="!bannerPreview">Cover Banner image</div>
+      </div>
+      <div class="overlay"><span>Edit</span></div>
+    </div>
+
+    <div class="logo-area">
+      <label class="logo-circle editable" (click)="logoInput.click()" tabindex="0">
+        <input #logoInput type="file" accept="image/*" (change)="onLogoChange($event)" hidden />
+        <div
+          class="logo-inner"
+          [ngStyle]="{ 'background-image': logoPreview ? 'url(' + logoPreview + ')' : 'none' }"
+        >
+          <div class="logo-placeholder" *ngIf="!logoPreview">Brand Logo</div>
+        </div>
+        <div class="overlay"><span>Edit</span></div>
+      </label>
+    </div>
+
+    <form #myForm="ngForm" (ngSubmit)="submit(myForm)" class="boutique-form" novalidate>
+      <div class="field">
+        <label>Brand name <span class="req">*</span></label>
+        <input name="brandName" [(ngModel)]="model.brandName" required />
+        <div class="error" *ngIf="myForm.submitted && !model.brandName">Brand name is required</div>
+      </div>
+
+      <div class="field">
+        <label>Bio</label>
+        <input name="bio" [(ngModel)]="model.bio" />
+      </div>
+
+      <div class="field">
+        <label>Description (What you sell, style, concept — short paragraph)</label>
+        <textarea name="description" [(ngModel)]="model.description" rows="4"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Keyword <span class="req">*</span></label>
+        <input
+          name="keyword"
+          [(ngModel)]="model.keyword"
+          required
+          pattern="^\\S+$"
+          maxlength="12"
+          #keywordModel="ngModel"
+        />
+
+        <div class="error" *ngIf="myForm.submitted && keywordModel?.errors">
+          <div *ngIf="keywordModel?.errors?.['required']">Keyword is required.</div>
+          <div *ngIf="keywordModel?.errors?.['pattern']">Keyword must be a single word.</div>
+          <div *ngIf="keywordModel?.errors?.['maxlength']">
+            Keyword cannot exceed 12 characters.
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Brand E-Mail</label>
+        <input name="email" [(ngModel)]="model.email" email />
+        <div
+          class="error"
+          *ngIf="myForm.submitted && model.email && myForm.controls['email']?.invalid"
+        >
+          Enter a valid email
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Phone Number <span class="req">*</span></label>
+        <input name="phone" [(ngModel)]="model.phone" required />
+        <div class="error" *ngIf="myForm.submitted && !model.phone">Phone number is required</div>
+      </div>
+
+      <div class="field inline">
+        <label>Payment options</label>
+        <div class="chips">
+          <button
+            type="button"
+            class="pill"
+            *ngFor="let p of paymentOptions"
+            [class.active]="model.payments[p.id]"
+            (click)="togglePayment(p.id)"
+          >
+            {{ p.label }}
+          </button>
+        </div>
+      </div>
+
+      <div class="field inline">
+        <label>Category of Products <span class="req">*</span></label>
+        <div class="chips wrap">
+          <button
+            type="button"
+            class="pill small"
+            *ngFor="let c of categories"
+            [class.active]="model.categories[c]"
+            (click)="toggleCategory(c)"
+          >
+            {{ c }}
+          </button>
+        </div>
+        <div class="error" *ngIf="catLimitError">You can select up to 4 categories only.</div>
+      </div>
+
+      <div class="field social">
+        <label>Social Media Links</label>
+        <div class="social-row">
+          <input name="facebook" [(ngModel)]="model.social.facebook" placeholder="Facebook" />
+          <input name="instagram" [(ngModel)]="model.social.instagram" placeholder="Instagram" />
+        </div>
+        <div class="social-row">
+          <input name="linkedin" [(ngModel)]="model.social.linkedin" placeholder="LinkedIn" />
+          <input name="x" [(ngModel)]="model.social.x" placeholder="X" />
+          <input name="tiktok" [(ngModel)]="model.social.tiktok" placeholder="TikTok" />
+        </div>
+      </div>
+
+      <div class="submit-area">
+        <button class="submit-btn" type="submit">Submit</button>
+      </div>
+    </form>
+  </section>
+</div>

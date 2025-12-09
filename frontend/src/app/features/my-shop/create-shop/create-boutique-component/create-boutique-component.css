@@ -1,0 +1,255 @@
+:host {
+  display: block;
+  font-family: 'Kanit', sans-serif;
+}
+
+.create-boutique-component {
+    padding: 200 10 200 10;
+}
+
+.page {
+  background-color: #FFFFFF;
+  min-height: 100vh;
+
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.hero {
+  text-align: center;
+  padding: 28px 0 12px;
+}
+
+.hero h1 {
+  font-family: 'kalnia', serif;
+  font-weight: 400;
+  font-size: 50px;
+  margin-bottom: 20px;
+  color: #2b1b1f;
+}
+
+/* container width stays same */
+.form-card {
+  max-width: 1020px;
+  margin: 18px auto;
+  background: #f5f4f4;
+  border-radius: 12px;
+  padding: 42px 40px 64px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) inset;
+  position: relative;
+}
+
+/* Banner holder - larger rectangle */
+.banner-holder {
+  width: calc(100% - 40px);
+  max-width: 760px;
+  height: 180px;
+  margin: 0 auto 20px;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2dfe2;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-placeholder {
+  color: rgba(43, 27, 31, 0.5);
+  font-size: 14px;
+  font-family: 'Kanit', sans-serif;
+}
+
+/* Logo circle centered under banner */
+.logo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -80px auto 28px; /* overlap banner */
+  position: relative;
+  z-index: 2;
+}
+
+/* editable base (both banner and logo) */
+.editable {
+  position: relative;
+  outline: none;
+}
+
+/* circular logo */
+.logo-circle {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 3px solid rgba(255, 255, 255, 0.85);
+}
+
+.logo-inner {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-placeholder {
+  color: rgba(43, 27, 31, 0.5);
+  font-size: 13px;
+  font-family: 'Kanit', sans-serif;
+}
+
+/* overlay shown on hover */
+.editable .overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 600;
+  font-family: 'Kanit', sans-serif;
+  font-size: 16px;
+  background: rgba(0, 0, 0, 0);
+  transition: background 160ms ease, opacity 160ms ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.editable:hover .overlay,
+.editable:focus .overlay {
+  background: rgba(0, 0, 0, 0.32);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Fields & bigger typography but same container */
+.boutique-form .field {
+  margin-bottom: 20px;
+}
+
+.boutique-form label {
+  display: block;
+  font-size: 13px;
+  color: #8b6b72;
+  margin-bottom: 8px;
+  font-family: 'Kanit', sans-serif;
+}
+
+.boutique-form input[type='text'],
+.boutique-form input[type='email'],
+.boutique-form textarea,
+.boutique-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background: transparent;
+  outline: none;
+  font-size: 15px;
+  font-family: 'Kanit', sans-serif;
+}
+
+.req {
+  color: rgb(99, 64, 18);
+  font-size: 12px;
+}
+
+.inline .chips {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.pill {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 18px;
+  background: #f4f4f4;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pill.small {
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 14px;
+}
+
+.pill.active {
+  background: #FADED2;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(180, 40, 80, 0.15);
+}
+
+.social-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.social-row input {
+  flex: 1;
+  padding: 8px 10px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: transparent;
+}
+
+.error {
+  color: #b34157;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.submit-area {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.submit-btn {
+    font-family: "Kalnia", serif;
+    margin-top: 20px;
+  background: #b34157;
+  color: #fff;
+  border: none;
+  padding: 14px 48px;
+  font-size: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.06);
+  transition: background 160ms ease;
+}
+
+.submit-btn:hover {
+  background: rgb(124, 52, 67);
+}
