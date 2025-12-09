@@ -1,28 +1,30 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SignupService } from '../../../services/signup.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './sign-up.html',
-  styleUrls: ['./sign-up.css']
+  styleUrls: ['./sign-up.css'],
 })
 export class SignUp {
   @Output() goToLogin = new EventEmitter<void>();
 
-
   myForm: FormGroup;
   saving = false;
-  message = '';
 
-  constructor(private fb: FormBuilder, private signupService: SignupService) {
+  // POUR LE MODAL
+  showModal = false;
+  modalMessage = '';
+
+  constructor(private fb: FormBuilder, private auth: AuthService) {
     this.myForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 
@@ -30,22 +32,29 @@ export class SignUp {
     if (this.myForm.invalid) return;
 
     this.saving = true;
-    this.message = '';
 
     const { username, email, password } = this.myForm.value;
 
-    this.signupService.signup({ username, email, password }).subscribe({
+    this.auth.signup({ username, email, password }).subscribe({
       next: (res) => {
         this.saving = false;
-        this.message = 'Account created — id: ' + (res.user?.id ?? '');
+
+        this.modalMessage = 'Your account has been created successfully!';
+        this.showModal = true;
+
         this.myForm.reset();
-        alert('Signup successful! Please log in.');
-        this.goToLogin.emit();
       },
       error: (err) => {
         this.saving = false;
-        this.message = err?.error?.error ?? 'Signup failed';
-      }
+
+        this.modalMessage = err?.error?.error ?? 'Signup failed';
+        this.showModal = true;
+      },
     });
+  }
+
+  closeModal() {
+    this.showModal = false;
+    this.goToLogin.emit(); // redirection vers login
   }
 }

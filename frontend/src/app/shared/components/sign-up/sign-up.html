@@ -23,4 +23,13 @@
       <button type="submit" [disabled]="saving">SIGN UP</button>
     </div>
   </form>
+  <div class="modal-backdrop" *ngIf="showModal">
+  <div class="custom-modal">
+    <h3>Account created</h3>
+    <p>Your account has been created successfully.</p>
+
+    <button class="modal-btn" (click)="closeModal()">Continue to Login</button>
+  </div>
+</div>
+
 </div>
