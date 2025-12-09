@@ -21,10 +21,10 @@
                 <img src="/icons/header/shopping-cart.svg" alt="cart">  
                 <span *ngIf="cartItemCount > 0" class="cart-badge">{{ cartItemCount }}</span> 
             </button>
-            <button class="icon-btn cart-btn" (click)="navigateToCart()">
-                <img src="/icons/header/Shop.svg" alt="cart">  
-                <span *ngIf="cartItemCount > 0" class="cart-badge">{{ cartItemCount }}</span> 
-            </button>
+            
+            <img src="/icons/header/Shop.svg" alt="shop" (click)="navigateToMyShop()">  
+                
+            
 
         </div>
     </div>

@@ -46,6 +46,11 @@ export class Header {
     this.router.navigate(['/checkout']);
   }
 
+  navigateToMyShop(): void {
+    this.router.navigate(['/my-shop']);
+  }
+
+
   navigateToFavorites(): void {
     console.log('Navigate to favorites');
     //TODO: Implement favorites navigation
