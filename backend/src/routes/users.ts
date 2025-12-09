@@ -50,7 +50,6 @@ router.get("/has-shop", authenticateJWT, async (req: AuthRequest, res) => {
 
     return res.json({
       hasShop: true,
-      shop,
     });
   } catch (err) {
     console.error(err);
