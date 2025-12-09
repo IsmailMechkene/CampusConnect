@@ -1,439 +1,423 @@
-* {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            color: black;
-        }
+.section {
+  background-color: #ffece4;
+  width: 100%;
+  height: 110vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: flex-start;
+}
 
-        /* Hero Section Styles */
-        .section {
-            background-color: #FFECE4;
-            width: 100%;
-            height: 110vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: end;
-            align-items: flex-start;
-           
-        }
+.content {
+  display: flex;
+  height: fit-content;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 10;
+  padding-left: 180px;
+  gap: 15px;
+}
 
-        .content {
-            display: flex;
-            height: fit-content;
-            flex-direction: column;
-            justify-content: center;
-            align-items:  flex-start;
-            z-index: 10;
-            padding-left: 180px; 
-             gap: 15px; 
-        }
+.legend {
+  font-family: 'Kalnia', sans-serif;
+  font-size: 8rem;
+  font-weight: 500;
+  letter-spacing: 10px;
+  text-align: left;
+}
 
-        .legend {
-            font-family: "Kalnia", sans-serif;
-            font-size: 8rem;
-            font-weight: 500;
-            letter-spacing: 10px;
-            text-align: left;
-        }
+.sub-legend {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 40px;
+  font-weight: 200;
+  letter-spacing: 2px;
+  margin-top: -20px;
+}
 
-        .sub-legend {
-            font-family: "Bricolage Grotesque", sans-serif;
-            font-size: 40px;
-            font-weight: 200;
-            letter-spacing: 2px;
-            margin-top: -20px;
-        }
+.description {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  width: 600px;
+  font-size: 1.2rem;
+  text-wrap: wrap;
+  text-align: left;
+  margin-bottom: 30px;
+  font-weight: 100;
+}
 
-        .description {
-            font-family: "Bricolage Grotesque", sans-serif;
-            width: 600px;
-            font-size: 1.2rem;
-            text-wrap: wrap;
-            text-align: left;
-            margin-bottom: 30px;
-            font-weight: 100;
-        }
+.explore-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #5576bc;
+  color: white;
+  height: 60px;
+  width: 250px;
+  padding: 15px 40px;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+  border-radius: 30px;
+}
 
-        .explore-btn {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #5576BC;
-            color: white;
-            height: 60px;
-            width: 250px;
-            padding: 15px 40px;
-            border: none;
-            font-size: 1.4rem;
-            cursor: pointer;
-            letter-spacing: 4px;
-            margin-bottom: 20px;
-            transition: background-color 0.3s ease;
-            border-radius: 30px;
-        }
+.explore-btn:hover {
+  background-color: rgb(74, 111, 190);
+}
 
-        .explore-btn:hover {
-            background-color:rgb(74, 111, 190);
-        }
+.image-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
 
-        .image-section {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: end;
-        }
-        
-        .image-section img {
-            width: auto;
-            height: 100%;
-        }
+.image-section img {
+  width: auto;
+  height: 100%;
+}
 
-        .stats {
-            background-color: #FFECE4;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 50% - 50% */
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-    padding-top: 120px;
-    padding-bottom: 120px;
-    padding-left: 400px;
-    padding-right: 250px;
-
+.stats {
+  background-color: #ffece4;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 50% - 50% */
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding-top: 120px;
+  padding-bottom: 120px;
+  padding-left: 400px;
+  padding-right: 250px;
 }
 
 /* Image à droite */
 .photo-stat img {
-    width: 600px;
-    height: auto;
-    object-fit: cover;
+  width: 600px;
+  height: auto;
+  object-fit: cover;
 }
 
 /* Partie droite divisée en haut/bas */
 .stat-item {
-    display: grid;
-    grid-template-rows: 1fr 1fr; /* 50% - 50% */
-    gap: 15px;
+  display: grid;
+  grid-template-rows: 1fr 1fr; /* 50% - 50% */
+  gap: 15px;
 }
 
 .stat-item-p {
-    font-family: Abhaya Libre;
-    font-size: 60px;
-    font-weight: 550;    
+  font-family: Abhaya Libre;
+  font-size: 60px;
+  font-weight: 550;
 }
 
 /* Les 4 stats (carré) */
 .stat-number {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
-    grid-template-rows: repeat(2, 1fr);    /* 2 lignes */
-    gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+  grid-template-rows: repeat(2, 1fr); /* 2 lignes */
+  gap: 10px;
 }
 .stat-number p {
-            font-family: "Bricolage Grotesque", sans-serif;
-            font-size: 30px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 30px;
 }
-.number{
-    font-size: 50px;
-    font-weight: 400;
+.number {
+  font-size: 50px;
+  font-weight: 400;
 }
 
 /*Why sell with us section*/
 
 .why-sell-section {
-    background-color: #D5E6FF;
-    padding-top: 120px;
-    padding-bottom: 60px;
-    display: grid;
-    grid-template-rows: 1fr 3fr; /* 25% - 75% */
-    align-items: start;
-    gap: 40px;
-    width: 100%;
+  background-color: #d5e6ff;
+  padding-top: 120px;
+  padding-bottom: 60px;
+  display: grid;
+  grid-template-rows: 1fr 3fr; /* 25% - 75% */
+  align-items: start;
+  gap: 40px;
+  width: 100%;
 }
 
 /* Titre */
 .why-title {
-    font-family: "Abhaya Libre";
-    font-size: 4.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-    text-align: center;
-    color: black;
-    padding-bottom: 30px;
+  font-family: 'Abhaya Libre';
+  font-size: 4.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  color: black;
+  padding-bottom: 30px;
 }
 
 /* Les cartes sur la partie droite */
 .why-items {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    padding-left: 50px;
-    padding-right: 50px;
-
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 /* Style des cartes */
 .why-card {
-    padding: 20px;
-    text-align: center;
+  padding: 20px;
+  text-align: center;
 }
 
 .why-card img {
-    width: 120px;
-    margin-bottom: 15px;
+  width: 120px;
+  margin-bottom: 15px;
 }
 
 .why-card h2 {
-    font-family: "Bricolage Grotesque", sans-serif;
-    font-size: 1.4rem;
-    margin-bottom: 10px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
 }
 /* SECTION */
 .favourites-section {
-    background-color: #FFECE4;
-    width: 100%;
-    padding: 60px 0;
-    padding-top: 120px;
-    padding-bottom: 140px;
-    margin: 0 auto; 
+  background-color: #ffece4;
+  width: 100%;
+  padding: 60px 0;
+  padding-top: 120px;
+  padding-bottom: 140px;
+  margin: 0 auto;
 }
 
 /* TITRE GLOBAL */
 .favourites-title {
-    font-family: "Abhaya Libre";
-    font-size: 4.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-    text-align: center  ;
-    color : black;
-    margin-bottom: 80px;
-    letter-spacing: 1px;
+  font-family: 'Abhaya Libre';
+  font-size: 4.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  color: black;
+  margin-bottom: 80px;
+  letter-spacing: 1px;
 }
 
 /* GRID DES 3 CARTES : petite - grande - petite */
 .favourites-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr 1fr; /* petite - grande - petite */
-    gap: 100px;
-    width: 80%;
-    margin-left: 100px;
-    margin-right: 100px;   
-    margin: 0 auto 
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr; /* petite - grande - petite */
+  gap: 100px;
+  width: 80%;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin: 0 auto;
 }
 
 /* CARTES GÉNÉRALES */
 .litte-favourite-item {
-    background: #FFE4D5;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  background: #ffe4d5;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.big-favourite-item{
-    background: #D4627F;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 35px; /* un peu plus grande */
-    transform: scale(1.05);
+.big-favourite-item {
+  background: #d4627f;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 35px; /* un peu plus grande */
+  transform: scale(1.05);
 }
-
 
 /* TITRES DANS LES CARTES */
 .litte-favourite-item h2,
 .big-favourite-item h2 {
-    font-family: "Abhaya Libre";
-    font-size: 2rem;
-    margin-bottom: 10px;
-
+  font-family: 'Abhaya Libre';
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
 /* SOUS-TITRE (nom du produit) */
 .litte-favourite-item h3,
 .big-favourite-item h3 {
-    font-family: "Abhaya Libre";
-    font-size: 1.5rem;
-    margin: 10px 0;
-    font-weight: 600;
+  font-family: 'Abhaya Libre';
+  font-size: 1.5rem;
+  margin: 10px 0;
+  font-weight: 600;
 }
 
 /* IMAGES */
 .litte-favourite-item img,
 .big-favourite-item img {
-    width: 90%;
-    height: 280px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin: 10px auto 15px auto;
+  width: 90%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 10px auto 15px auto;
 }
 
 /* DESCRIPTION */
 .litte-favourite-item p,
 .big-favourite-item p {
-    font-size: 0.95rem;
-    line-height: 1.4;
-    margin-bottom: 20px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 20px;
 }
 
 /* TAGS */
 .tags {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .tag {
-    padding: 5px 12px;
-    background: #f0f0f0;
-    border-radius: 20px;
-    font-size: 0.85rem;
+  padding: 5px 12px;
+  background: #f0f0f0;
+  border-radius: 20px;
+  font-size: 0.85rem;
 }
 
 /* BUTTON */
 .learn-more-btn {
-    background: white;
-    color: black;
-    border: none;
-    padding: 12px 20px;
-    font-size: 1rem;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    width: fit-content;
-    margin: 20px auto 0 auto;
+  background: white;
+  color: black;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  width: fit-content;
+  margin: 20px auto 0 auto;
 }
 
 .learn-more-btn:hover {
-    background: #FFE4D5;
+  background: #ffe4d5;
 }
 
-.view-brands-btn{
-    background: #D4627F;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 1rem;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    width: 200px;
-     display: block;    
-    margin: 80px auto 0;
+.view-brands-btn {
+  background: #d4627f;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  width: 200px;
+  display: block;
+  margin: 80px auto 0;
 }
 
 .view-brands-btn:hover {
-    background: #B83556;
+  background: #b83556;
 }
 
-        /* Best Sellers Section */
-        .best-sellers-section {
-            background-color: white;
-            padding: 80px 40px;
-        }
+/* Best Sellers Section */
+.best-sellers-section {
+  background-color: white;
+  padding: 80px 40px;
+}
 
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-        .product-item {
-            text-align: center;
-            background-color: #F8F5F5;
-            padding: 30px;
-            border-radius: 8px;
-        }
+.product-item {
+  text-align: center;
+  background-color: #f8f5f5;
+  padding: 30px;
+  border-radius: 8px;
+}
 
-        .product-item h3 {
-            font-size: 1.6rem;
-            font-weight: 500;
-            margin-bottom: 15px;
-            color: #333;
-        }
+.product-item h3 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 15px;
+  color: #333;
+}
 
-        .product-locations {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 10px;
-        }
+.product-locations {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 10px;
+}
 
-        .product-price {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #B83556;
-        }
+.product-price {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #b83556;
+}
 
-        /* Close to Practice Section */
-        .practice-section {
-            background-color: #F5EFEF;
-            padding: 80px 40px;
-            text-align: center;
-        }
+/* Close to Practice Section */
+.practice-section {
+  background-color: #f5efef;
+  padding: 80px 40px;
+  text-align: center;
+}
 
-        .practice-section h2 {
-            font-family: "Kalnia", sans-serif;
-            font-size: 3rem;
-            font-weight: 500;
-            margin-bottom: 30px;
-            color: #333;
-        }
+.practice-section h2 {
+  font-family: 'Kalnia', sans-serif;
+  font-size: 3rem;
+  font-weight: 500;
+  margin-bottom: 30px;
+  color: #333;
+}
 
-        .practice-content {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #666;
-        }
+.practice-content {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #666;
+}
 
-        /* Footer */
-        .footer {
-            background-color: #333;
-            color: white;
-            padding: 60px 40px;
-            text-align: center;
-        }
+/* Footer */
+.footer {
+  background-color: #333;
+  color: white;
+  padding: 60px 40px;
+  text-align: center;
+}
 
-        .footer-title {
-            font-family: "Kalnia", sans-serif;
-            font-size: 2.5rem;
-            font-weight: 500;
-            margin-bottom: 20px;
-        }
+.footer-title {
+  font-family: 'Kalnia', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
 
-        .footer-subtitle {
-            font-size: 1.2rem;
-            color: #ccc;
-            margin-bottom: 40px;
-        }
+.footer-subtitle {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 40px;
+}
 
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 30px;
-        }
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
 
-        .footer-link {
-            color: #B83556;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-        }
+.footer-link {
+  color: #b83556;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
 
-        .footer-link:hover {
-            color: #942b45;
-            text-decoration: underline;
-        }
+.footer-link:hover {
+  color: #942b45;
+  text-decoration: underline;
+}
