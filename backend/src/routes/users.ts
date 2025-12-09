@@ -31,4 +31,31 @@ router.get("/me", authenticateJWT, async (req: AuthRequest, res) => {
   }
 });
 
+router.get("/has-shop", authenticateJWT, async (req: AuthRequest, res) => {
+  try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID missing" });
+    }
+
+    const shop = await prisma.stores.findFirst({
+      where: { owner_id: userId },
+      select: { id: true, name: true },
+    });
+
+    if (!shop) {
+      return res.json({ hasShop: false });
+    }
+
+    return res.json({
+      hasShop: true,
+      shop,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 export default router;
