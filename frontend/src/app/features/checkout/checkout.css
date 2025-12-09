@@ -1,3 +1,7 @@
+.cart-full-container {
+  background-color: #f5f5f5;
+  width: 100%;
+}
 .checkout-container {
   min-height: calc(100vh - 200px);
   background-color: #f5f5f5;
@@ -13,11 +17,13 @@
 
 /* Page Title */
 .page-title {
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 4rem;
+  font-weight: 500;
   color: #1a1a1a;
   margin: 0 0 2rem 0;
-  font-family: 'Georgia', serif;
+  margin-top: 100px;
+  font-family: 'Kalnia', serif;
+
 }
 
 /* Checkout Grid Layout */
