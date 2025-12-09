@@ -4,6 +4,7 @@ import cors from "cors";
 import path from "path";
 import authRoutes from "./routes/auth";
 import userRoutes from "./routes/users";
+import shopRoutes from "./routes/shop";
 
 dotenv.config();
 
@@ -21,8 +22,12 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//Servir les fichiers du dossier 'uploads' sous le chemin '/uploads'
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/shop", shopRoutes);
 
 // Routes
 app.get("/", (_req, res) => {
