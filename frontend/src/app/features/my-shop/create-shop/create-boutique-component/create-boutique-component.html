@@ -37,7 +37,7 @@
       </div>
 
       <div class="field">
-        <label>Bio</label>
+        <label>Bio<span class="req">*</span></label>
         <input name="bio" [(ngModel)]="model.bio" />
       </div>
 
@@ -47,29 +47,29 @@
       </div>
 
       <div class="field">
-      <label>Keyword <span class="req">*</span></label>
-      <input
-        name="keyword"
-        [(ngModel)]="model.keyword"
-        required
-        pattern="^[^\s]+$"
-        maxlength="12"
-        #keywordModel="ngModel"
-      />
+        <label>Keywor <span class="req">*</span></label>
+        <input
+          name="keyword"
+          [(ngModel)]="model.keyword"
+          required
+          pattern="^[^\s]+$"
+          maxlength="12"
+          #keywordModel="ngModel"
+        />
 
-      <div class="error" *ngIf="myForm.submitted && keywordModel?.errors">
-        <div *ngIf="keywordModel?.errors?.['required']">Keyword is required.</div>
-        <div *ngIf="keywordModel?.errors?.['pattern']">
-          Keyword must be a single word with no spaces.
-        </div>
-        <div *ngIf="keywordModel?.errors?.['maxlength']">
-          Keyword cannot exceed 12 characters.
+        <div class="error" *ngIf="myForm.submitted && keywordModel?.errors">
+          <div *ngIf="keywordModel?.errors?.['required']">Keyword is required.</div>
+          <div *ngIf="keywordModel?.errors?.['pattern']">
+            Keyword must be a single word with no spaces.
+          </div>
+          <div *ngIf="keywordModel?.errors?.['maxlength']">
+            Keyword cannot exceed 12 characters.
+          </div>
         </div>
       </div>
-    </div>
 
       <div class="field">
-        <label>Brand E-Mail</label>
+        <label>Brand E-Mail<span class="req">*</span></label>
         <input name="email" [(ngModel)]="model.email" email />
         <div
           class="error"

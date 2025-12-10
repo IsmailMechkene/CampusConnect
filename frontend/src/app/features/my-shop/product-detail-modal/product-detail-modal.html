@@ -1,0 +1,219 @@
+<div class="modal-backdrop" (click)="onBackdropClick($event)">
+  <div class="modal-content">
+    
+    <!-- Close Button -->
+    <button class="close-btn" (click)="closeModal()" aria-label="Close">
+      <img src="/icons/close-icon.png" alt="Close" width="30" hight="30">
+    </button>
+
+    <div class="modal-body">
+      
+      <!-- Image Gallery Section -->
+      <div class="image-section">
+        <!-- Main Image -->
+        <div class="main-image">
+          <img [src]="getCurrentImage()" [alt]="product.name">
+        </div>
+
+        <!-- Thumbnail Gallery -->
+        <div class="thumbnail-gallery" *ngIf="editedProduct.images && editedProduct.images.length > 1">
+          <div 
+            *ngFor="let img of editedProduct.images; let i = index"
+            class="thumbnail"
+            [class.active]="i === selectedImageIndex"
+            (click)="selectImage(i)"
+          >
+            <img [src]="img" [alt]="'Product image ' + (i + 1)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Details Section -->
+      <div class="details-section">
+        
+        <!-- View Mode -->
+        <div *ngIf="!isEditMode" class="view-mode">
+          
+          <!-- Product Name and Rating -->
+          <div class="product-header">
+            <h2 class="product-name">{{ product.name }}</h2>
+            <div class="product-rating">
+              <svg *ngFor="let star of getStars()" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              <span class="rating-value">{{ product.rating }}</span>
+            </div>
+          </div>
+
+          <!-- Price -->
+          <div class="product-price">{{ product.price.toFixed(2) }} DT</div>
+
+          <!-- Description -->
+          <div class="product-description">
+            <h3>Description</h3>
+            <p>{{ product.description || 'No description available.' }}</p>
+          </div>
+
+          <!-- Stock Count -->
+          <div class="product-stock">
+            <span class="stock-label">Stock:</span>
+            <span class="stock-value" [class.out-of-stock]="(product.stockCount || 0) === 0">
+              {{ product.stockCount || 0 }} units
+            </span>
+          </div>
+
+          <!-- Tags -->
+          <div class="product-tags">
+            <h3>Tags</h3>
+            <div class="tags-list">
+              <span *ngFor="let tag of product.tags" class="tag">{{ tag }}</span>
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div class="product-status">
+            <span class="status-badge" [class]="product.status">
+              {{ product.status || 'active' }}
+            </span>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button *ngIf="canEdit" class="edit-btn" (click)="enableEditMode()">
+              Edit Product
+            </button>
+            <button *ngIf="canEdit" class="delete-btn" (click)="deleteProduct()">
+              Delete Product
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Edit Mode -->
+        <div *ngIf="isEditMode" class="edit-mode">
+          
+          <h2>Edit Product</h2>
+
+          <form class="edit-form">
+            
+            <!-- Product Name -->
+            <div class="form-group">
+              <label for="productName">Product Name</label>
+              <input 
+                type="text" 
+                id="productName"
+                [(ngModel)]="editedProduct.name"
+                name="name"
+                required
+              >
+            </div>
+
+            <!-- Price -->
+            <div class="form-group">
+              <label for="productPrice">Price (DT)</label>
+              <input 
+                type="number" 
+                id="productPrice"
+                [(ngModel)]="editedProduct.price"
+                name="price"
+                step="0.01"
+                min="0"
+                required
+              >
+            </div>
+
+            <!-- Category -->
+            <div class="form-group">
+              <label for="productCategory">Category</label>
+              <input 
+                type="text" 
+                id="productCategory"
+                [(ngModel)]="editedProduct.category"
+                name="category"
+                required
+              >
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+              <label for="productDescription">Description</label>
+              <textarea 
+                id="productDescription"
+                [(ngModel)]="editedProduct.description"
+                name="description"
+                rows="4"
+              ></textarea>
+            </div>
+
+            <!-- Stock Count -->
+            <div class="form-group">
+              <label for="productStock">Stock Count</label>
+              <input 
+                type="number" 
+                id="productStock"
+                [(ngModel)]="editedProduct.stockCount"
+                name="stockCount"
+                min="0"
+                required
+              >
+            </div>
+
+            <!-- Status -->
+            <div class="form-group">
+              <label for="productStatus">Status</label>
+              <select 
+                id="productStatus"
+                [(ngModel)]="editedProduct.status"
+                name="status"
+              >
+                <option value="active">Active</option>
+                <option value="archived">Archived</option>
+                <option value="out-of-stock">Out of Stock</option>
+              </select>
+            </div>
+
+            <!-- Tags -->
+            <div class="form-group">
+              <label>Tags</label>
+              <div class="tags-input">
+                <div class="tags-list">
+                  <span 
+                    *ngFor="let tag of editedProduct.tags" 
+                    class="tag editable"
+                  >
+                    {{ tag }}
+                    <button type="button" (click)="removeTag(tag)">×</button>
+                  </span>
+                </div>
+                <div class="add-tag">
+                  <input 
+                    type="text" 
+                    #tagInput
+                    placeholder="Add tag..."
+                    (keyup.enter)="addTag(tagInput)"
+                  >
+                  <button type="button" (click)="addTag(tagInput)">Add</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button type="button" class="cancel-btn" (click)="cancelEdit()">
+                Cancel
+              </button>
+              <button type="button" class="save-btn" (click)="saveChanges()">
+                Save Changes
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

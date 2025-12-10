@@ -43,6 +43,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'my-shop/:id',
+    loadComponent: () => import('./features/my-shop/inspect-shop/inspect-shop').then((m) => m.InspectShop),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'checkout',
     loadComponent: () => import('./features/checkout/checkout').then((m) => m.Checkout),
     canActivate: [AuthGuard],
@@ -51,6 +56,10 @@ export const routes: Routes = [
   {
     path: 'contact',
     loadComponent: () => import('./features/contact/contact').then((m) => m.Contact),
+    canActivate: [AuthGuard],
+  },
+  { path: 'about-us',
+    loadComponent: () => import('./features/about-us/about-us').then((m) => m.AboutUs),
     canActivate: [AuthGuard],
   },
   {

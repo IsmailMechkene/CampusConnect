@@ -1,0 +1,378 @@
+.header {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  text-align: center;
+  margin-bottom: 80px;
+  padding-top: 250px;
+  background-color: #ffe0e6;
+}
+
+.top-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 700px;
+  pointer-events: none;
+}
+
+.top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 700px;
+  pointer-events: none;
+}
+
+.title {
+  font-family: 'kalnia', sans-serif !important;
+  font-size: 6rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.header p {
+  font-family: 'Kanit', sans-serif;
+  font-style: italic;
+  font-size: 1.8rem;
+  font-weight: 200;
+  color: #555555;
+}
+:host {
+  display: block;
+}
+/* JOURNEY */
+
+.Journey {
+  background: #FFFFFF;
+  margin-bottom: 80px;
+  padding: 0 20px; 
+}
+
+.Journey-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 60px;
+  align-items: center; 
+    max-width: 1200px; 
+  margin: 0 auto; 
+}
+
+.picture-side {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center; 
+}
+
+.section-image {
+  width: 100%;
+  max-width: 694px; 
+  height: auto; 
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.text-side {
+  height: 300px;
+  width: 120%;
+  font-family: 'Kanit', sans-serif;
+  padding-right: 20px;
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 500;
+  color: #2C2C2C;
+  margin-bottom: 24px;
+  line-height: 1.2;
+  font-family: 'kalnia', sans-serif;
+}
+
+.section-description {
+  font-size: 16px;
+  line-height: 1.6; 
+  color: #666;
+}
+
+
+/* VALUES SECTION */
+
+
+.values-section {
+  background-color: #FFC2CF80;
+  padding: 40px 0;
+  height: 300px;
+  display: flex;
+  align-items: center;
+}
+
+/* Layout of the three items */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-around; /* Space items evenly */
+  align-items: center;
+  gap: 120px;
+}
+
+/* Individual box styling */
+.value-box {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* ← THIS controls icon-text distance */
+}
+
+/* Icon size */
+.value-icon {
+  width: 80px;
+  height: auto;
+  object-fit: contain;   /* prevents stretching */
+  margin:0px;
+}
+
+/* Title styling */
+.value-box h3 {
+  margin-top: 100px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+/* Subtitle styling */
+.value-box p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #333;
+}
+
+
+/* MEET THE TEAM SECTION */
+
+
+.team-section {
+  padding: 80px 20px;
+  background: #F5F5F5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.team-heading {
+  font-size: 48px;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 60px;
+  font-family: 'kalnia', sans-serif;
+  letter-spacing: -1px;
+  text-align: center;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
+}
+
+/* Team Card */
+.team-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  max-width: 100%;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Image Wrapper */
+.team-image-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.team-image {
+  width: 100%;
+  height:auto;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+/* LinkedIn Icon */
+.linkedin-icon {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 40px;
+  height: 37px;
+  background: #000000;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.linkedin-icon:hover {
+  background: #B83556;
+  transform: scale(1.1);
+}
+
+.linkedin-text {
+  color: #FFC654;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: Arial, sans-serif;
+}
+
+/* Team Name */
+.team-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #B83556;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* Team Quote */
+.team-quote {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333333;
+  text-align: center;
+  margin: 0;
+}
+
+
+/* BENEFITS SECTION */
+
+.benefits-section {
+    height: 30vh;
+    padding: 0px 120px;
+    background-color: #FFC2CF80;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.benefits-container {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 200px;
+}
+
+.benefit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    height: 150px;
+    width: 33%;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+#with-divider {
+    border-left: 1px solid #B83556;
+    border-right: 1px solid #B83556;
+}
+
+.benefit p {
+    font-family: "Kalnia", sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.benefit span {
+    font-family: "Kanit", sans-serif;
+    font-weight: 300;
+    font-size: 1.1rem;
+}
+
+/* OUR MOTTO SECTION */
+
+/* Center the content in the middle of the page */
+
+.motto-section {
+  margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+    box-sizing: border-box;
+}
+
+.content-container {
+    display: flex;
+    max-width: 1000px;
+    width: 100%;
+    gap: 40px;
+    align-items: center;
+}
+
+.quote-block {
+    flex: 0 0 350px;
+    background-color: #F7DCB9;
+    border-radius: 10px;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quote {
+    font-family: Georgia, serif;
+    font-size: 38px;
+    font-weight: bold;
+    color: #914F1E;
+    line-height: 1.2;
+    margin: 0;
+    text-align: left;
+}
+
+/* Right Side */
+
+.motto-text-container {
+    flex: 1;
+    padding-top: 10px;
+    margin-bottom: 0px;
+}
+
+.motto-heading {
+    font-family: 'kalnia', sans-serif ;
+    line-height: 1.2;
+    font-size: 36px;
+    color: #2C2C2C;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+
+.motto-body {
+    font-family: 'Kanit', sans-serif;
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    max-width: 550px;
+}
+
