@@ -111,7 +111,7 @@ export class InspectShop implements OnInit, OnDestroy {
   ngOnInit(): void {
     const shopId = this.route.snapshot.paramMap.get('id') || 'shop-1';
     this.loadShopData(shopId);
-    this.checkOwnership(shopId);
+    this.checkOwnershop(shopId);
   }
 
   /**
@@ -330,43 +330,39 @@ export class InspectShop implements OnInit, OnDestroy {
         this.newProduct.image ||
           'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=400&fit=crop',
       ],
-      tags: this.newProduct.tags || [],
-      stockCount: this.newProduct.stockCount || 0,
-      status: (this.newProduct.status as 'active' | 'archived' | 'out-of-stock') || 'active',
+      tags: this.newProduct.tags,
+      stockCount: this.newProduct.stockCount,
+      status: this.newProduct.status as any,
       shopName: this.shopDetails?.name || '',
       shopId: this.shopDetails?.id || '',
       rating: 0,
     };
 
-    // TODO: Appeler le service pour ajouter le produit
-    console.log('Adding product:', product);
-    // this.productService.addProduct(product).subscribe(...)
+    this.productService
+      .addProduct(product)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.closeAddProductModal();
+        this.loadShopData(this.shopDetails?.id || 'shop-1');
+      });
   }
 
   /**
-   * Ajouter un tag au nouveau produit
+   * Add tag to new product
    */
-  addTagToNewProduct(inputElement: HTMLInputElement): void {
-    const tag = inputElement.value.trim();
+  addTagToNewProduct(tagInput: HTMLInputElement): void {
+    const tag = tagInput.value.trim();
     if (tag && !this.newProduct.tags?.includes(tag)) {
-      if (!this.newProduct.tags) {
-        this.newProduct.tags = [];
-      }
-      this.newProduct.tags.push(tag);
-      inputElement.value = '';
+      this.newProduct.tags = [...(this.newProduct.tags || []), tag];
+      tagInput.value = '';
     }
   }
 
   /**
-   * Supprimer un tag du nouveau produit
+   * Remove tag from new product
    */
   removeTagFromNewProduct(tag: string): void {
-    if (this.newProduct.tags) {
-      const index = this.newProduct.tags.indexOf(tag);
-      if (index !== -1) {
-        this.newProduct.tags.splice(index, 1);
-      }
-    }
+    this.newProduct.tags = this.newProduct.tags?.filter((t) => t !== tag);
   }
 
   // Variables pour les modals de shop
@@ -517,27 +513,25 @@ export class InspectShop implements OnInit, OnDestroy {
     if (!this.shopDetails) return;
 
     this.isDeleting = true;
-    /*
-  // Note: Le service n'a pas encore de méthode deleteShop, nous allons l'ajouter
-  this.shopService.deleteShop(this.shopDetails.id)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: () => {
-        console.log('Shop deleted successfully');
-        // Rediriger vers la page d'accueil ou le dashboard
-        alert('Shop deleted successfully!');
-        // window.location.href = '/'; // Redirection
-      },
-      error: (error) => {
-        console.error('Error deleting shop:', error);
-        alert('Failed to delete shop. Please try again.');
-      },
-      complete: () => {
-        this.isDeleting = false;
-        this.closeDeleteShopModal();
-      }
-        
-    });
-    */
+
+    this.shopService
+      .deleteShop(this.shopDetails.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          console.log('Shop deleted successfully');
+          // Rediriger vers la page d'accueil ou le dashboard
+          alert('Shop deleted successfully!');
+          // window.location.href = '/'; // Redirection
+        },
+        error: (error) => {
+          console.error('Error deleting shop:', error);
+          alert('Failed to delete shop. Please try again.');
+        },
+        complete: () => {
+          this.isDeleting = false;
+          this.closeDeleteShopModal();
+        },
+      });
   }
 }
