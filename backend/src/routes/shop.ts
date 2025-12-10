@@ -392,5 +392,74 @@ router.get("/:id", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+/* -------------------------------------------------------
+   DELETE SHOP
+   DELETE /api/shop/delete/:id
+--------------------------------------------------------*/
+router.delete(
+  "/delete/:id",
+  verifyToken,
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const userId = (req as any).userId;
 
+      // Trouver le shop
+      const shop = await prisma.stores.findUnique({
+        where: { id },
+      });
+
+      if (!shop) {
+        return res.status(404).json({ message: "Shop not found" });
+      }
+
+      // Vérifier l'ownership
+      if (shop.owner_id !== userId) {
+        return res.status(403).json({
+          message: "You are not the owner of this shop",
+        });
+      }
+
+      // Supprimer les images associées
+      if (shop.logo) {
+        const logoPath = path.join(
+          process.cwd(),
+          "uploads",
+          "brandsLogo",
+          path.basename(shop.logo)
+        );
+        if (fs.existsSync(logoPath)) {
+          fs.unlinkSync(logoPath);
+        }
+      }
+
+      if (shop.banner_image) {
+        const bannerPath = path.join(
+          process.cwd(),
+          "uploads",
+          "bannersLogo",
+          path.basename(shop.banner_image)
+        );
+        if (fs.existsSync(bannerPath)) {
+          fs.unlinkSync(bannerPath);
+        }
+      }
+
+      // Supprimer le shop (les produits seront supprimés en cascade grâce à onDelete: Cascade)
+      await prisma.stores.delete({
+        where: { id },
+      });
+
+      return res.status(200).json({
+        message: "Shop deleted successfully",
+      });
+    } catch (err) {
+      console.error("Delete shop error:", err);
+      return res.status(500).json({
+        message: "Server error",
+        error: err instanceof Error ? err.message : "Unknown error",
+      });
+    }
+  }
+);
 export default router;
