@@ -2,7 +2,7 @@
     <div class="image-container">
         <img [src]="product.imageUrl" [alt]="product.name" class="product-image">
         <button 
-          class="favorite-btn" 
+          class="favorite-btn"
           [class.active]="isFavorited"
           (click)="toggleFavorite()"
           aria-label="Add to favorites">
@@ -13,15 +13,16 @@
     </div>
       
     <div class="product-info">
+
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <h3 class="brand-name">{{ product.brand }}</h3>
             
+            <p class="product-name">{{ product.name }}</p>
             <div class="rating">
                 <span class="star">★</span>
                 <span class="rating-value">{{ product.rating }}</span>
             </div>
         </div>
-        <p class="product-name">{{ product.name }}</p>
+        <h3 class="brand-name">{{ product.brand }}</h3>
         
         <div class="product-footer">
             <span class="price">{{ product.price.toFixed(2) }} {{ product.currency }}</span>
