@@ -44,6 +44,11 @@ export const routes: Routes = [
     title: 'Shopping Cart',
   },
   {
+    path: 'my-shop/:id',
+    loadComponent: () => import('./features/my-shop/inspect-shop/inspect-shop').then((m) => m.InspectShop),
+    canActivate: [AuthGuard],
+  },
+  {
     path: '**',
     redirectTo: 'home', // <-- Change de 'login' à 'home' ou garde login
   },

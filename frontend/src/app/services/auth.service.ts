@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+
+import { User } from '../shared/models/shop-owner.model';
 
 export interface LoginPayload {
   email: string;
@@ -79,4 +81,73 @@ export class AuthService {
   refreshUser(): Observable<AuthResponse> {
     return this.http.get<AuthResponse>(`${this.baseUrl}/users/me`);
   }
+
+
+
+
+
+
+
+
+    
+  // Current user subject
+  private currentUserSubject = new BehaviorSubject<User | null>(this.getMockUser());
+
+  // Observable of current user
+  public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
+
+  // Get current user
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
+  }
+
+  // Check if current user is a seller
+  isSeller(): boolean {
+    const user = this.getCurrentUser();
+    return user?.role === 'seller';
+  }
+
+  // Check if current user owns the shop
+  isShopOwner(shopId: string): boolean {
+    const user = this.getCurrentUser();
+    return user?.role === 'seller' && user?.shopId === shopId;
+  }
+
+  // Toggle between seller and customer role (for demo purposes)
+  toggleUserRole(): void {
+    const currentUser = this.getCurrentUser();
+    if (currentUser) {
+      const newRole = currentUser.role === 'seller' ? 'customer' : 'seller';
+      const updatedUser: User = {
+        ...currentUser,
+        role: newRole
+      };
+      this.currentUserSubject.next(updatedUser);
+      console.log('User role changed to:', newRole);
+    }
+  }
+
+  // Get mock user for demo
+  private getMockUser(): User {
+    return {
+      id: 'user-1',
+      name: 'Racha Ben Ahmed',
+      email: 'racha@example.com',
+      role: 'seller', // Change to 'customer' to test customer view
+      shopId: 'shop-1'
+    };
+  }
+
+  // Login Aziz
+  // login(email: string, password: string): Observable<User> {
+  //   // Mock login - in production, this would call API
+  //   const user = this.getMockUser();
+  //   this.currentUserSubject.next(user);
+  //   return new BehaviorSubject<User>(user).asObservable();
+  // }
+
+  // // logout Aziz
+  // logout(): void {
+  //   this.currentUserSubject.next(null);
+  // }
 }
