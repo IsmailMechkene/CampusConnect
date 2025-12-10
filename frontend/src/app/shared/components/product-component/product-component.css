@@ -5,6 +5,7 @@
     border-radius: 24px;
     overflow: hidden;
     box-sizing: border-box;
+    padding: 24px 24px 0px;
 }
 
 .image-container {
@@ -66,7 +67,7 @@
     padding: 20px 0px 24px;
 }
 
-.brand-name {
+.product-name {
     font-family: "kalnia", serif;
     font-size: 24px;
     font-weight: 600;
@@ -91,7 +92,7 @@
     color: #000;
 }
 
-.product-name {
+.brand-name {
     font-size: 16px;
     color: #666;
 }
