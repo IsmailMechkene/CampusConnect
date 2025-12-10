@@ -2,72 +2,7 @@
   <app-header></app-header>
 
   <div class="container">
-    <section class="controls">
-      <h1 class="title">Favourites</h1>
-
-      <div class="row">
-        <div class="tabs" role="tablist" aria-label="Favourites filter">
-          <button (click)="filter='all'" [class.active]="filter==='all'">All</button>
-          <button (click)="filter='products'" [class.active]="filter==='products'">Products</button>
-          <button (click)="filter='stores'" [class.active]="filter==='stores'">Stores</button>
-        </div>
-
-        <div class="status">
-          <span *ngIf="loading">Loading…</span>
-          <span *ngIf="!loading">{{ (products.length) + (stores.length) }} total</span>
-        </div>
-      </div>
-
-      <p class="lead">Items you marked as favourite. Toggle the heart to remove from favourites.</p>
-      <div class="error" *ngIf="error">{{ error }}</div>
-    </section>
-
-    <!-- STORES -->
-    <section *ngIf="visibleStores.length > 0" class="section-list stores">
-      <h2 class="section-heading">Stores</h2>
-      <div class="grid" role="list">
-        <article class="card store" *ngFor="let s of visibleStores; trackBy: trackById">
-          <div class="media">
-            <img [src]="s.logo || s.banner_image || '/images/store-placeholder.png'" [alt]="s.brandName" />
-            <button class="fav-btn" (click)="toggleStore(s)" [attr.aria-pressed]="s.is_favourite">
-              <span [class.on]="s.is_favourite">♥</span>
-            </button>
-          </div>
-
-          <div class="info">
-            <h3 class="name">{{ s.brandName }}</h3>
-            <p class="meta">{{ s.moto || s.keyword || 'Local store' }}</p>
-            <p class="desc" *ngIf="s.description">{{ s.description }}</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- PRODUCTS -->
-    <section *ngIf="visibleProducts.length > 0" class="section-list products">
-      <h2 class="section-heading">Products</h2>
-      <div class="grid" role="list">
-        <article class="card product" *ngFor="let p of visibleProducts; trackBy: trackById">
-          <div class="media">
-            <!--<img [src]="p.img || '/images/product-placeholder.png'" [alt]="p.name">!-->
-
-            <button class="fav-btn" (click)="toggleProduct(p)" [attr.aria-pressed]="p.is_favourite">
-              <span [class.on]="p.is_favourite">♥</span>
-            </button>
-          </div>
-
-          <div class="info">
-            <h3 class="name">{{ p.name }}</h3>
-            <p class="meta">Price: {{ p.price ?? '—' }} • Stock: {{ p.stock ?? 0 }}</p>
-            <p class="desc" *ngIf="p.description">{{ p.description }}</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <div *ngIf="!loading && products.length === 0 && stores.length === 0" class="empty">
-      <p>You have no favourites yet — like some products or stores to fill this page.</p>
-    </div>
+   
   </div>
 
   <app-footer></app-footer>
