@@ -155,14 +155,16 @@ export class ShopService {
   private mockShops: Shop[] = [
     {
       id: 'shop-1',
-      name: 'Spark Agency',
-      category: 'Accessories',
+      brandName: 'Spark Agency',
+      // category: 'Accessories',
       description: 'Nulla sagittis ex sed tellus porttitor, vel dignissim magna euismod. Maecenas sit amet malesuada lorem, ac ornare erat.',
       logo: 'assets/shop-logo.png',
       rating: 4.5,
       reviewCount: 38,
       tags: ['Watches', 'Fit', 'School', 'New'],
-      backgroundColor: '#f8e4e4'
+      // backgroundColor: '#f8e4e4'
+      keyword: 'Accessories',
+      owner_id: 'user-1'
     },
     // Add other shops
   ];
