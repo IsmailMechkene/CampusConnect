@@ -59,6 +59,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'home', // <-- Change de 'login' à 'home' ou garde login
+    redirectTo: 'home',
   },
 ];
