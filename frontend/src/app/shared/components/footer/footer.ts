@@ -14,10 +14,10 @@ export class Footer {
   currentYear = new Date().getFullYear();
 
   links = [
-    { label: 'Home', url: '#' },
-    { label: 'Marketplace', url: '#' },
-    { label: 'About', url: '#' },
-    { label: 'Contact', url: '#' }
+    { label: 'Home', url: '/home' },
+    { label: 'Marketplace', url: '/marketplace' },
+    { label: 'About', url: '/about' },
+    { label: 'Contact', url: '/contact' }
   ];
 
   socials = [
