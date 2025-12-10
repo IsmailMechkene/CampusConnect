@@ -170,17 +170,29 @@ router.put(
       const { id } = req.params;
       const userId = (req as any).userId;
 
+      // Trouver le shop
       const shop = await prisma.stores.findUnique({
         where: { id },
       });
 
-      if (!shop) return res.status(404).json({ message: "Shop not found" });
+      if (!shop) {
+        return res.status(404).json({ message: "Shop not found" });
+      }
 
-      if (shop.owner_id !== userId)
-        return res
-          .status(403)
-          .json({ message: "You are not the owner of this shop" });
+      // Vérifier l'ownership
+      if (shop.owner_id !== userId) {
+        return res.status(403).json({
+          message: "You are not the owner of this shop",
+        });
+      }
 
+      // Parser les données comme dans CREATE
+      let bodyData = req.body;
+      if (req.body.data) {
+        bodyData = JSON.parse(req.body.data);
+      }
+
+      // Extraire les champs
       const {
         brandName,
         moto,
@@ -197,64 +209,78 @@ router.put(
         linkedin,
         x,
         tiktok,
-      } = req.body;
+      } = bodyData;
 
-      const updateData: any = {
-        name: brandName || shop.brandName,
-        moto: moto || shop.moto,
-        description: description ?? shop.description,
-        keyword: keyword || shop.keyword,
-        brandEmail: brandEmail ?? shop.brandEmail,
-        phoneNumber: phoneNumber ?? shop.phoneNumber,
+      // Construire l'objet de mise à jour
+      const updateData: any = {};
 
-        tag1: tag1 ?? shop.tag1,
-        tag2: tag2 ?? shop.tag2,
-        tag3: tag3 ?? shop.tag3,
-        tag4: tag4 ?? shop.tag4,
+      // Ajouter les champs seulement s'ils sont fournis
+      if (brandName !== undefined) updateData.brandName = brandName;
+      if (moto !== undefined) updateData.moto = moto;
+      if (description !== undefined) updateData.description = description;
+      if (keyword !== undefined) updateData.keyword = keyword;
+      if (brandEmail !== undefined) updateData.brandEmail = brandEmail;
+      if (phoneNumber !== undefined) updateData.phoneNumber = phoneNumber;
 
-        instagram: instagram ?? shop.instagram,
-        facebook: facebook ?? shop.facebook,
-        linkedin: linkedin ?? shop.linkedin,
-        x: x ?? shop.x,
-        tiktok: tiktok ?? shop.tiktok,
-      };
+      if (tag1 !== undefined) updateData.tag1 = tag1;
+      if (tag2 !== undefined) updateData.tag2 = tag2;
+      if (tag3 !== undefined) updateData.tag3 = tag3;
+      if (tag4 !== undefined) updateData.tag4 = tag4;
 
-      // Replace Logo
-      if (req.files && (req.files as any).logo) {
-        const newFile = (req.files as any).logo[0];
-        const newPath = `/uploads/brandsLogo/${newFile.filename}`;
-        updateData.logo = newPath;
+      if (instagram !== undefined) updateData.instagram = instagram;
+      if (facebook !== undefined) updateData.facebook = facebook;
+      if (linkedin !== undefined) updateData.linkedin = linkedin;
+      if (x !== undefined) updateData.x = x;
+      if (tiktok !== undefined) updateData.tiktok = tiktok;
 
-        // delete old logo
-        if (shop.logo) {
-          const oldPath = path.join(
-            process.cwd(),
-            "uploads",
-            "brandsLogo",
-            path.basename(shop.logo)
-          );
-          if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      // Gestion des fichiers
+      if (req.files) {
+        const files = req.files as {
+          [fieldname: string]: Express.Multer.File[];
+        };
+
+        // Logo
+        if (files.logo && files.logo[0]) {
+          const newLogoFile = files.logo[0];
+          const newLogoPath = `/uploads/brandsLogo/${newLogoFile.filename}`;
+          updateData.logo = newLogoPath;
+
+          // Supprimer l'ancien logo
+          if (shop.logo) {
+            const oldLogoPath = path.join(
+              process.cwd(),
+              "uploads",
+              "brandsLogo",
+              path.basename(shop.logo)
+            );
+            if (fs.existsSync(oldLogoPath)) {
+              fs.unlinkSync(oldLogoPath);
+            }
+          }
+        }
+
+        // Bannière
+        if (files.banner && files.banner[0]) {
+          const newBannerFile = files.banner[0];
+          const newBannerPath = `/uploads/bannersLogo/${newBannerFile.filename}`;
+          updateData.banner_image = newBannerPath;
+
+          // Supprimer l'ancienne bannière
+          if (shop.banner_image) {
+            const oldBannerPath = path.join(
+              process.cwd(),
+              "uploads",
+              "bannersLogo",
+              path.basename(shop.banner_image)
+            );
+            if (fs.existsSync(oldBannerPath)) {
+              fs.unlinkSync(oldBannerPath);
+            }
+          }
         }
       }
 
-      // Replace Banner
-      if (req.files && (req.files as any).banner) {
-        const newFile = (req.files as any).banner[0];
-        const newPath = `/uploads/bannersLogo/${newFile.filename}`;
-        updateData.banner_image = newPath;
-
-        // delete old banner
-        if (shop.banner_image) {
-          const oldPath = path.join(
-            process.cwd(),
-            "uploads",
-            "bannersLogo",
-            path.basename(shop.banner_image)
-          );
-          if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-        }
-      }
-
+      // Mettre à jour le shop
       const updatedShop = await prisma.stores.update({
         where: { id },
         data: updateData,
@@ -266,7 +292,10 @@ router.put(
       });
     } catch (err) {
       console.error("Update shop error:", err);
-      return res.status(500).json({ message: "Server error" });
+      return res.status(500).json({
+        message: "Server error",
+        error: err instanceof Error ? err.message : "Unknown error",
+      });
     }
   }
 );
@@ -310,6 +339,51 @@ router.get("/my-shop", authenticateJWT, async (req: AuthRequest, res) => {
 
     if (!shop) {
       return res.status(404).json({ error: "No shop found for this user" });
+    }
+
+    return res.json(shop);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+/* -------------------------------------------------------
+   GET SHOP BY ID 
+   GET /api/shop/:id
+--------------------------------------------------------*/
+router.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const shop = await prisma.stores.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        brandName: true,
+        description: true,
+        owner_id: true,
+        created_at: true,
+        moto: true,
+        keyword: true,
+        brandEmail: true,
+        phoneNumber: true,
+        tag1: true,
+        tag2: true,
+        tag3: true,
+        tag4: true,
+        instagram: true,
+        facebook: true,
+        linkedin: true,
+        x: true,
+        tiktok: true,
+        logo: true,
+        banner_image: true,
+      },
+    });
+
+    if (!shop) {
+      return res.status(404).json({ error: "Shop not found" });
     }
 
     return res.json(shop);

@@ -1,70 +1,179 @@
 <app-header></app-header>
-<div class="shop-container" *ngIf="shopDetails">
 
+<!-- Loading state -->
+<div class="shop-loading" *ngIf="isLoading">
+  <div class="container">
+    <p>Chargement de la boutique...</p>
+  </div>
+</div>
+
+<!-- Error / not found -->
+<div class="shop-error" *ngIf="!isLoading && loadError">
+  <div class="container">
+    <p>Boutique introuvable.</p>
+  </div>
+</div>
+
+<div class="shop-container" *ngIf="!isLoading && shopDetails">
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="cover-image">
-      <img [src]="shopDetails.coverImage" [alt]="shopDetails.name">
+      <img
+        [src]="toImageUrl(shopDetails.coverImage)"
+        [alt]="shopDetails.name"
+        [title]="shopDetails.name"
+      />
     </div>
-    
-    <div class="container">
-      <div class="shop-logo">
-        <div class="logo-placeholder">
-          <img [src]="shopDetails.logo" [alt]="shopDetails.name">
-        </div>
-      </div>
 
+    <div class="container">
       <div class="shop-info-card">
+        <!-- Logo -->
+        <div class="shop-logo">
+          <div class="logo-placeholder">
+            <img
+              [src]="toImageUrl(shopDetails.logo)"
+              [alt]="shopDetails.name"
+              [title]="shopDetails.name"
+            />
+          </div>
+        </div>
+
         <!-- Shop Details -->
         <div class="shop-details">
           <h1 class="shop-name">{{ shopDetails.name }}</h1>
           <p class="shop-motto">{{ shopDetails.motto }}</p>
           <p class="shop-description">{{ shopDetails.description }}</p>
+          <div class="shop-actions">
+            <button class="modify-btn" (click)="openModifyShopModal()">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              Modify Shop
+            </button>
+            <button class="delete-btn" (click)="openDeleteShopModal()">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              Delete Shop
+            </button>
+          </div>
         </div>
 
         <!-- Contact Information -->
         <div class="contact-info">
           <h3>Contact</h3>
           <div class="contact-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              ></path>
               <polyline points="22,6 12,13 2,6"></polyline>
             </svg>
             <span>{{ shopDetails.contactInfo.email }}</span>
           </div>
           <div class="contact-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+              ></path>
             </svg>
             <span>{{ shopDetails.contactInfo.phone }}</span>
           </div>
-          
+
           <!-- Social Media Links -->
           <div class="social-links">
-            <a *ngIf="shopDetails.contactInfo.socialMedia.instagram" [href]="'https://instagram.com/' + shopDetails.contactInfo.socialMedia.instagram" target="_blank" aria-label="Instagram">
-              <!-- <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <a
+              *ngIf="shopDetails.contactInfo.socialMedia.instagram"
+              [href]="'https://instagram.com/' + shopDetails.contactInfo.socialMedia.instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              title="Instagram"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="white"></path>
-                <circle cx="17.5" cy="6.5" r="1.5" fill="white"></circle>
-              </svg> -->
-              <img src="/icons/social-media/instagram-icon.png" alt="Instagram" width="20" height="20">
+                <path
+                  d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                ></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2"></line>
+              </svg>
             </a>
-            <a *ngIf="shopDetails.contactInfo.socialMedia.facebook" [href]="'https://facebook.com/' + shopDetails.contactInfo.socialMedia.facebook" target="_blank" aria-label="Facebook">
+            <a
+              *ngIf="shopDetails.contactInfo.socialMedia.facebook"
+              [href]="'https://facebook.com/' + shopDetails.contactInfo.socialMedia.facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              title="Facebook"
+            >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
               </svg>
             </a>
-            <a *ngIf="shopDetails.contactInfo.socialMedia.twitter" [href]="'https://twitter.com/' + shopDetails.contactInfo.socialMedia.twitter" target="_blank" aria-label="Twitter">
+            <a
+              *ngIf="shopDetails.contactInfo.socialMedia.twitter"
+              [href]="'https://twitter.com/' + shopDetails.contactInfo.socialMedia.twitter"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Twitter"
+              title="Twitter"
+            >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                <path
+                  d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"
+                ></path>
               </svg>
             </a>
-            <a *ngIf="shopDetails.contactInfo.socialMedia.tiktok" href="#" target="_blank" aria-label="TikTok">
-              <img src="/icons/social-media/tiktok-icon.png" alt="Tiktok" width="20" height="20">
+            <a
+              *ngIf="shopDetails.contactInfo.socialMedia.tiktok"
+              [href]="'https://tiktok.com/@' + shopDetails.contactInfo.socialMedia.tiktok"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok"
+              title="TikTok"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
+                ></path>
+              </svg>
             </a>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -72,9 +181,7 @@
   <!-- Main Content -->
   <section class="main-content">
     <div class="container">
-      
       <div class="content-grid">
-        
         <!-- Sidebar Filters -->
         <aside class="filters-sidebar">
           <h2 class="sidebar-title">Filter by</h2>
@@ -83,15 +190,27 @@
           <div class="filter-group">
             <h3 class="filter-title">Product Status</h3>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.productStatus.active" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.productStatus.active"
+                (change)="onFilterChange()"
+              />
               <span>Active</span>
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.productStatus.archived" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.productStatus.archived"
+                (change)="onFilterChange()"
+              />
               <span>Archived</span>
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.productStatus.outOfStock" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.productStatus.outOfStock"
+                (change)="onFilterChange()"
+              />
               <span>Out of Stock</span>
             </label>
           </div>
@@ -100,19 +219,35 @@
           <div class="filter-group">
             <h3 class="filter-title">Category</h3>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.category.wool" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.category.wool"
+                (change)="onFilterChange()"
+              />
               <span>Wool</span>
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.category.clothing" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.category.clothing"
+                (change)="onFilterChange()"
+              />
               <span>Clothing</span>
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.category.accessories" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.category.accessories"
+                (change)="onFilterChange()"
+              />
               <span>Accessories</span>
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.category.handmade" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.category.handmade"
+                (change)="onFilterChange()"
+              />
               <span>Handmade</span>
             </label>
           </div>
@@ -121,9 +256,19 @@
           <div class="filter-group">
             <h3 class="filter-title">Price</h3>
             <div class="price-inputs">
-              <input type="number" [(ngModel)]="filters.priceRange!.min" (change)="onFilterChange()" placeholder="Min">
+              <input
+                type="number"
+                [(ngModel)]="filters.priceRange!.min"
+                (change)="onFilterChange()"
+                placeholder="Min"
+              />
               <span>-</span>
-              <input type="number" [(ngModel)]="filters.priceRange!.max" (change)="onFilterChange()" placeholder="Max">
+              <input
+                type="number"
+                [(ngModel)]="filters.priceRange!.max"
+                (change)="onFilterChange()"
+                placeholder="Max"
+              />
             </div>
           </div>
 
@@ -131,11 +276,19 @@
           <div class="filter-group">
             <h3 class="filter-title">Availability</h3>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.availability.inStock" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.availability.inStock"
+                (change)="onFilterChange()"
+              />
               <span>In stock</span>
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.availability.outOfStock" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.availability.outOfStock"
+                (change)="onFilterChange()"
+              />
               <span>Out of Stock</span>
             </label>
           </div>
@@ -144,11 +297,19 @@
           <div class="filter-group">
             <h3 class="filter-title">Date Added</h3>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.dateAdded.newest" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.dateAdded.newest"
+                (change)="onFilterChange()"
+              />
               <span>Newest</span>
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.dateAdded.oldest" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.dateAdded.oldest"
+                (change)="onFilterChange()"
+              />
               <span>Oldest</span>
             </label>
           </div>
@@ -157,39 +318,51 @@
           <div class="filter-group">
             <h3 class="filter-title">Popularity</h3>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.popularity.mostFavorited" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.popularity.mostFavorited"
+                (change)="onFilterChange()"
+              />
               <span>Most Favorited</span>
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="filterState.popularity.bestSelling" (change)="onFilterChange()">
+              <input
+                type="checkbox"
+                [(ngModel)]="filterState.popularity.bestSelling"
+                (change)="onFilterChange()"
+              />
               <span>Best Selling</span>
             </label>
           </div>
-
         </aside>
 
         <!-- Products Grid -->
         <div class="products-section">
-          
           <div class="products-grid">
-            
             <!-- Add Product Card (Only for owners) -->
-            <div *ngIf="isOwner" class="product-card add-product-card" (click)="openAddProductModal()">
+            <div
+              *ngIf="isOwner"
+              class="product-card add-product-card"
+              (click)="openAddProductModal()"
+            >
               <div class="add-product-content">
                 <h3>New Product</h3>
-                <p>Add a new item to your boutique. Upload photos, set a price, and publish it instantly.</p>
+                <p>
+                  Add a new item to your boutique. Upload photos, set a price, and publish it
+                  instantly.
+                </p>
                 <button class="add-btn">Add</button>
               </div>
             </div>
 
             <!-- Product Cards -->
-            <div 
-              *ngFor="let product of filteredProducts" 
+            <div
+              *ngFor="let product of filteredProducts"
               class="product-card"
               (click)="openProductDetail(product)"
             >
               <div class="product-image">
-                <img [src]="product.image" [alt]="product.name">
+                <img [src]="product.image" [alt]="product.name" [title]="product.name" />
                 <span class="new-badge" *ngIf="product.isNew">New Product</span>
               </div>
               <div class="product-info">
@@ -198,20 +371,28 @@
                   <span class="product-price">{{ product.price.toFixed(2) }} DT</span>
                   <div class="product-rating">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
                     </svg>
                     <span>{{ product.rating }}</span>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
 
           <!-- Pagination -->
           <div class="pagination">
             <button class="page-btn prev-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
@@ -221,19 +402,22 @@
             <span class="page-dots">...</span>
             <button class="page-number">10</button>
             <button class="page-btn next-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </button>
           </div>
-
         </div>
-
       </div>
-
     </div>
   </section>
-
 </div>
 
 <!-- Product Detail Modal -->
@@ -250,42 +434,42 @@
 <div *ngIf="showAddProductModal" class="modal-backdrop" (click)="closeAddProductModal()">
   <div class="modal-content add-product-modal" (click)="$event.stopPropagation()">
     <button class="close-btn" (click)="closeAddProductModal()">
-      <img src="/icons/close-icon.png" alt="Close" width="30" hight="30">
+      <img src="/icons/close-icon.png" alt="Close" title="Close" width="30" height="30" />
     </button>
-    
+
     <h2>Add New Product</h2>
-    
+
     <form class="add-product-form">
       <div class="form-group">
         <label>Product Name <span class="required-field">*</span></label>
-        <input type="text" [(ngModel)]="newProduct.name" name="name" required>
+        <input type="text" [(ngModel)]="newProduct.name" name="name" required />
       </div>
-      
+
       <div class="form-group">
         <label>Price (DT) <span class="required-field">*</span></label>
-        <input type="number" [(ngModel)]="newProduct.price" name="price" step="0.01" required>
+        <input type="number" [(ngModel)]="newProduct.price" name="price" step="0.01" required />
       </div>
-      
+
       <div class="form-group">
         <label>Category</label>
-        <input type="text" [(ngModel)]="newProduct.category" name="category">
+        <input type="text" [(ngModel)]="newProduct.category" name="category" />
       </div>
-      
+
       <div class="form-group">
         <label>Description</label>
         <textarea [(ngModel)]="newProduct.description" name="description" rows="4"></textarea>
       </div>
-      
+
       <div class="form-group">
         <label>Image URL</label>
-        <input type="text" [(ngModel)]="newProduct.image" name="image">
+        <input type="text" [(ngModel)]="newProduct.image" name="image" />
       </div>
-      
+
       <div class="form-group">
         <label>Stock Count <span class="required-field">*</span></label>
-        <input type="number" [(ngModel)]="newProduct.stockCount" name="stockCount" required>
+        <input type="number" [(ngModel)]="newProduct.stockCount" name="stockCount" required />
       </div>
-      
+
       <div class="form-group">
         <label>Tags</label>
         <div class="tags-input">
@@ -296,18 +480,176 @@
             </span>
           </div>
           <div class="add-tag">
-            <input type="text" #newTagInput placeholder="Add tag...">
+            <input type="text" #newTagInput placeholder="Add tag..." />
             <button type="button" (click)="addTagToNewProduct(newTagInput)">Add</button>
           </div>
         </div>
       </div>
-      
+
       <div class="form-actions">
         <button type="button" class="cancel-btn" (click)="closeAddProductModal()">Cancel</button>
         <button type="button" class="save-btn" (click)="addNewProduct()">Add Product</button>
       </div>
     </form>
-    
+  </div>
+</div>
+
+<!-- Modify Shop Modal -->
+<div *ngIf="showModifyShopModal" class="modal-backdrop" (click)="closeModifyShopModal()">
+  <div class="modal-content modify-shop-modal" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModifyShopModal()">
+      <img src="/icons/close-icon.png" alt="Close" title="Close" width="30" height="30" />
+    </button>
+
+    <h2>Modify Shop</h2>
+
+    <form class="modify-shop-form" *ngIf="shopDetailsCopy">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Shop Name <span class="required-field">*</span></label>
+          <input type="text" [(ngModel)]="shopDetailsCopy.name" name="name" required />
+        </div>
+
+        <div class="form-group">
+          <label>Motto</label>
+          <input type="text" [(ngModel)]="shopDetailsCopy.motto" name="motto" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea [(ngModel)]="shopDetailsCopy.description" name="description" rows="3"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <input type="text" [(ngModel)]="shopDetailsCopy.category" name="category" />
+        </div>
+
+        <div class="form-group">
+          <label>Email <span class="required-field">*</span></label>
+          <input
+            type="email"
+            [(ngModel)]="shopDetailsCopy.contactInfo.email"
+            name="email"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" [(ngModel)]="shopDetailsCopy.contactInfo.phone" name="phone" />
+        </div>
+
+        <div class="form-group">
+          <label>Instagram</label>
+          <input
+            type="text"
+            [(ngModel)]="shopDetailsCopy.contactInfo.socialMedia.instagram"
+            name="instagram"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Facebook</label>
+          <input
+            type="text"
+            [(ngModel)]="shopDetailsCopy.contactInfo.socialMedia.facebook"
+            name="facebook"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>TikTok</label>
+          <input
+            type="text"
+            [(ngModel)]="shopDetailsCopy.contactInfo.socialMedia.tiktok"
+            name="tiktok"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Logo</label>
+          <div class="file-upload">
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onLogoSelected($event)"
+              #logoInput
+              hidden
+            />
+            <button type="button" class="file-btn" (click)="logoInput.click()">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              Upload Logo
+            </button>
+            <span class="file-name">{{ selectedLogoFile?.name || 'No file chosen' }}</span>
+          </div>
+          <small class="file-hint">Recommended: 300x300px, PNG or JPG</small>
+        </div>
+
+        <div class="form-group">
+          <label>Cover Image</label>
+          <div class="file-upload">
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onCoverSelected($event)"
+              #coverInput
+              hidden
+            />
+            <button type="button" class="file-btn" (click)="coverInput.click()">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              Upload Cover
+            </button>
+            <span class="file-name">{{ selectedCoverFile?.name || 'No file chosen' }}</span>
+          </div>
+          <small class="file-hint">Recommended: 1400x300px, PNG or JPG</small>
+        </div>
+      </div>
+
+      <div class="current-images-info" *ngIf="shopDetails">
+        <p>
+          <strong>Note:</strong> Current images will be replaced. Leave empty to keep existing
+          images.
+        </p>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="closeModifyShopModal()">Cancel</button>
+        <button type="button" class="save-btn" (click)="modifyShop()" [disabled]="isModifying">
+          {{ isModifying ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 
