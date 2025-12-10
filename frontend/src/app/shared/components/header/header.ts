@@ -52,8 +52,7 @@ export class Header {
 
 
   navigateToFavorites(): void {
-    console.log('Navigate to favorites');
-    //TODO: Implement favorites navigation
+    this.router.navigate(['/favourites']);
   }
 
   @HostListener('window:scroll', [])
