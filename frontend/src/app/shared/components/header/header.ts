@@ -58,7 +58,6 @@ export class Header {
           }
         },
         error: () => {
-          // On error (e.g. not authenticated), still navigate to create-shop page
           this.router.navigate(['/my-shop']);
         },
       });
