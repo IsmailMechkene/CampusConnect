@@ -45,7 +45,7 @@
   color: #555555;
 }
 
-/* Container */
+
 .container {
   max-width: 1100px;
   margin: 28px auto;
@@ -53,7 +53,7 @@
   box-sizing: border-box;
 }
 
-/* Top */
+
 .top {
   margin-bottom: 18px;
   display: flex;
@@ -70,7 +70,6 @@
   margin: 4px 0 8px 0;
 }
 
-/* Controls */
 .controls {
   display: flex;
   align-items: center;
@@ -95,7 +94,7 @@
   font-size: 14px;
 }
 
-/* Grid */
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -103,7 +102,7 @@
   margin-top: 18px;
 }
 
-/* Card */
+
 .card {
   background: #fff6f7;
   border-radius: 12px;
@@ -124,7 +123,6 @@
   display: block;
 }
 
-/* Info */
 .info {
   padding: 12px;
   display: flex;
@@ -153,7 +151,7 @@
   border-radius: 8px;
 }
 
-/* Description & meta */
+
 .desc {
   color: #5b3b3f;
   font-size: 14px;
@@ -169,7 +167,7 @@
   font-size: 13px;
 }
 
-/* Empty */
+
 .empty {
   text-align: center;
   color: #6e5256;

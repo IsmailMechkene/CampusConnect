@@ -36,9 +36,9 @@
       </div>
 
       <div class="price-section">
-        <span class="current-price">\${{ product.price }}</span>
+        <span class="current-price">{{ product.price }}TND</span>
         @if (product.originalPrice) {
-        <span class="original-price">\${{ product.originalPrice }}</span>
+        <span class="original-price">{{ product.originalPrice }}TND</span>
         <span class="discount">-{{ calculateDiscount() }}%</span>
         }
       </div>

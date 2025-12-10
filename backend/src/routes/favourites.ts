@@ -31,7 +31,6 @@ router.get('/products', async (req, res) => {
       }
     });
 
-    // Prisma Decimal -> convert to string for JSON safety if needed
     const normalized = products.map(p => ({ ...p, price: p.price?.toString?.() ?? p.price }));
     res.json(normalized);
   } catch (err) {
@@ -72,10 +71,7 @@ router.get('/stores', async (req, res) => {
   }
 });
 
-/**
- * PATCH /api/products/:id  { is_favourite: boolean }
- * Updates product's is_favourite
- */
+
 router.patch('/products/:id', async (req, res) => {
   try {
     const id = req.params.id;

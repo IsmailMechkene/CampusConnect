@@ -15,11 +15,11 @@ import { ShopService } from '../../../../services/shopService.service';
 export class CreateBoutiqueComponent implements OnInit {
   model: any = {
     brandName: '',
-    bio: '', // Correspond à "moto" dans le backend
+    bio: '', 
     description: '',
     keyword: '',
-    email: '', // Correspond à "brandEmail" dans le backend
-    phone: '', // Correspond à "phoneNumber" dans le backend
+    email: '', 
+    phone: '',
     tag1: '',
     tag2: '',
     tag3: '',
@@ -36,7 +36,6 @@ export class CreateBoutiqueComponent implements OnInit {
       card: false,
       edinar: false,
     },
-    // Pour les catégories (tags)
     categories: {} as Record<string, boolean>,
   };
 
