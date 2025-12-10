@@ -7,31 +7,30 @@ import { ShopService, ShopStatusResponse, Shop } from '../../services/shopServic
 
 @Component({
   selector: 'app-my-shop',
-  imports: [
-    Header,
-    Footer,
-    CreateShop,
-    InspectShop
-  ],
+  imports: [Header, Footer, CreateShop, InspectShop],
   templateUrl: './my-shop.html',
   styleUrls: ['./my-shop.css'],
 })
 export class MyShop implements OnInit {
-
   hasShop = false;
-  myShop?: Shop;
+  myShop?: Shop; //'Shop | undefined'
 
   constructor(private shopService: ShopService) {}
 
   ngOnInit() {
-    this.shopService.hasShop().subscribe((resp: ShopStatusResponse) => {
-      this.hasShop = !!resp.hasShop;
-      if (resp.shop) this.myShop = resp.shop;
-    });
-
-    this.shopService.getMyShop().subscribe((shop: Shop) => {
-      this.hasShop = true;
-      this.myShop = shop;
+    this.shopService.hasShop().subscribe({
+      next: (resp: ShopStatusResponse) => {
+        this.hasShop = resp.hasShop;
+        // Assurez-vous que shop n'est jamais null
+        if (resp.shop) {
+          this.myShop = resp.shop;
+        }
+      },
+      error: (err) => {
+        console.error('Error checking shop status:', err);
+        this.hasShop = false;
+        this.myShop = undefined;
+      },
     });
   }
 }

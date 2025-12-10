@@ -9,6 +9,4 @@ import { Footer } from '../footer/footer';
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
-export class Home {
-  
-}
+export class Home {}

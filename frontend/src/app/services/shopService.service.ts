@@ -1,23 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
-
-export interface CreateShopPayload {
-  name: string;
-  description?: string;
-}
+import { Observable } from 'rxjs';
 
 export interface Shop {
   id: string;
-  name: string | null;
+  brandName: string;
+  moto?: string | null;
   description?: string | null;
+  keyword: string | null;
+  brandEmail?: string | null;
+  phoneNumber?: string | null;
+  tag1?: string | null;
+  tag2?: string | null;
+  tag3?: string | null;
+  tag4?: string | null;
+  instagram?: string | null;
+  facebook?: string | null;
+  linkedin?: string | null;
+  x?: string | null;
+  tiktok?: string | null;
+  logo?: string | null;
+  banner_image?: string | null;
   owner_id: string;
   created_at?: string;
 }
 
 export interface ShopStatusResponse {
   hasShop: boolean;
-  shop?: Shop | null;
+  shop?: Shop; // 'Shop | undefined'
 }
 
 @Injectable({ providedIn: 'root' })
@@ -48,9 +58,16 @@ export class ShopService {
     });
   }
 
-  /** Créer un shop pour le user */
-  createShop(payload: CreateShopPayload): Observable<Shop> {
-    return this.http.post<Shop>(`${this.baseUrl}/shop/create`, payload, {
+  /** Créer un shop avec fichiers */
+  createShopWithFiles(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/shop/create`, formData, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  /** Mettre à jour un shop */
+  updateShop(id: string, formData: FormData): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/shop/update/${id}`, formData, {
       headers: this.getAuthHeaders(),
     });
   }

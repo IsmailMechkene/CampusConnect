@@ -54,8 +54,9 @@ model stores {
 
   brandName   String
   moto        String?
+  keyword     String
   description String?
-  brandEmail  String  @unique
+  brandEmail  String? @unique
   phoneNumber String
 
   // Optional Tags (max 4)

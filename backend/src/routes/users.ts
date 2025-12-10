@@ -31,6 +31,7 @@ router.get("/me", authenticateJWT, async (req: AuthRequest, res) => {
   }
 });
 
+// routes/users.ts - Modifiez la route /has-shop
 router.get("/has-shop", authenticateJWT, async (req: AuthRequest, res) => {
   try {
     const userId = req.user?.id;
@@ -41,15 +42,21 @@ router.get("/has-shop", authenticateJWT, async (req: AuthRequest, res) => {
 
     const shop = await prisma.stores.findFirst({
       where: { owner_id: userId },
-      select: { id: true, name: true },
+      select: {
+        id: true,
+        brandName: true,
+        // Ajoutez d'autres champs si nécessaire
+      },
     });
 
     if (!shop) {
       return res.json({ hasShop: false });
+      // Note: ne retournez PAS 'shop: null'
     }
 
     return res.json({
-      hasShop: true
+      hasShop: true,
+      shop: shop, // Ici 'shop' est défini
     });
   } catch (err) {
     console.error(err);
