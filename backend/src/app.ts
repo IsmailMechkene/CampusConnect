@@ -5,6 +5,7 @@ import path from "path";
 import authRoutes from "./routes/auth";
 import userRoutes from "./routes/users";
 import shopRoutes from "./routes/shop";
+import productRoutes from "./routes/product";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/shop", shopRoutes);
+app.use("/api/product", productRoutes);
 
 // Routes
 app.get("/", (_req, res) => {

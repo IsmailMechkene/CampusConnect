@@ -69,14 +69,28 @@ export class ShopService {
 
   /** Supprimer un shop */
   deleteShop(id: string): Observable<any> {
+    const headers = this.getAuthHeaders();
+
     return this.http
       .delete<any>(`${this.baseUrl}/shop/delete/${id}`, {
-        headers: this.getAuthHeaders(),
+        headers: headers,
       })
       .pipe(
-        catchError((err) => {
-          console.error('Error deleting shop:', err);
-          throw err;
+        tap((response) => {
+          console.log('Shop deleted successfully:', response);
+        }),
+        catchError((error) => {
+          console.error('Error deleting shop:', error);
+          // Vous pouvez gérer différents types d'erreurs ici
+          if (error.status === 404) {
+            throw new Error('Shop not found');
+          } else if (error.status === 403) {
+            throw new Error('You are not the owner of this shop');
+          } else if (error.status === 401) {
+            throw new Error('Authentication required');
+          } else {
+            throw new Error('Failed to delete shop');
+          }
         })
       );
   }
