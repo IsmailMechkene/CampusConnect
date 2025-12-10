@@ -44,7 +44,7 @@
           <p class="shop-motto">{{ shopDetails.motto }}</p>
           <p class="shop-description">{{ shopDetails.description }}</p>
           <div class="shop-actions">
-            <button class="modify-btn" (click)="openModifyShopModal()">
+            <button *ngIf="isOwner" class="modify-btn" (click)="openModifyShopModal()">
               <svg
                 width="16"
                 height="16"
@@ -58,7 +58,7 @@
               </svg>
               Modify Shop
             </button>
-            <button class="delete-btn" (click)="openDeleteShopModal()">
+            <button *ngIf="isOwner" class="delete-btn" (click)="openDeleteShopModal()">
               <svg
                 width="16"
                 height="16"
@@ -340,11 +340,7 @@
         <div class="products-section">
           <div class="products-grid">
             <!-- Add Product Card (Only for owners) -->
-            <div
-              *ngIf="isOwner"
-              class="product-card add-product-card"
-              (click)="openAddProductModal()"
-            >
+            <div class="product-card add-product-card" (click)="openAddProductModal()">
               <div class="add-product-content">
                 <h3>New Product</h3>
                 <p>
@@ -652,5 +648,38 @@
     </form>
   </div>
 </div>
+<!-- Delete Shop Modal -->
+<div *ngIf="showDeleteShopModal" class="modal-backdrop" (click)="closeDeleteShopModal()">
+  <div class="modal-content delete-shop-modal" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeDeleteShopModal()">
+      <img src="/icons/close-icon.png" alt="Close" title="Close" width="30" height="30" />
+    </button>
 
+    <div class="delete-warning">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2">
+        <path
+          d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+        ></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12" y2="17"></line>
+      </svg>
+      <h2>Delete Shop</h2>
+      <p class="warning-text">
+        Are you sure you want to delete <strong>{{ shopDetails?.name }}</strong
+        >? This action cannot be undone and all products will be permanently deleted.
+      </p>
+      <div class="delete-actions">
+        <button type="button" class="cancel-btn" (click)="closeDeleteShopModal()">Cancel</button>
+        <button
+          type="button"
+          class="delete-confirm-btn"
+          (click)="deleteShop()"
+          [disabled]="isDeleting"
+        >
+          {{ isDeleting ? 'Deleting...' : 'Delete Shop' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <app-footer></app-footer>
