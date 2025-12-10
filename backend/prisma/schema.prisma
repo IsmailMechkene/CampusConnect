@@ -54,7 +54,11 @@ model stores {
   brandName    String
   moto         String?
   description  String?
+<<<<<<< HEAD
   brandEmail   String?      @unique
+=======
+  brandEmail   String       @unique
+>>>>>>> main
   phoneNumber  String
   tag1         String?
   tag2         String?
@@ -69,7 +73,10 @@ model stores {
   banner_image String?
   created_at   DateTime     @default(now()) @db.Timestamptz(6)
   keyword      String
+<<<<<<< HEAD
   is_favourite Boolean?     @default(false)
+=======
+>>>>>>> main
   order_item   order_item[]
   products     products[]
   users        users        @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)

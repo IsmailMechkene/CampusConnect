@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { ShopService } from '../../../services/shopService.service';
 import { CartService } from '../../../services/cart.service';
 
 @Component({
@@ -16,24 +17,21 @@ export class Header {
 
   cartItemCount = 0;
 
-
   // Subject for component cleanup
   private destroy$ = new Subject<void>();
 
   constructor(
     private cartService: CartService,
-    private router: Router
-  ) { }
-
+    private router: Router,
+    private shopService: ShopService
+  ) {}
 
   // Component initialization
   ngOnInit(): void {
     // Subscribe to cart item count
-    this.cartService.cartItemCount$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(count => {
-        this.cartItemCount = count;
-      });
+    this.cartService.cartItemCount$.pipe(takeUntil(this.destroy$)).subscribe((count) => {
+      this.cartItemCount = count;
+    });
   }
 
   // Component cleanup
@@ -47,9 +45,24 @@ export class Header {
   }
 
   navigateToMyShop(): void {
-    this.router.navigate(['/my-shop']);
+    // Check whether the current user already has a shop, then navigate accordingly
+    this.shopService
+      .hasShop()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          if (res?.hasShop && res.shop?.id) {
+            this.router.navigate([`/my-shop/${res.shop.id}`]);
+          } else {
+            this.router.navigate(['/my-shop']);
+          }
+        },
+        error: () => {
+          // On error (e.g. not authenticated), still navigate to create-shop page
+          this.router.navigate(['/my-shop']);
+        },
+      });
   }
-
 
   navigateToFavorites(): void {
     this.router.navigate(['/favourites']);
