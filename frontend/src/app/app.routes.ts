@@ -49,6 +49,11 @@ export const routes: Routes = [
     title: 'Shopping Cart',
   },
   {
+    path: 'contact',
+    loadComponent: () => import('./features/contact/contact').then((m) => m.Contact),
+    canActivate: [AuthGuard],
+  },
+  {
     path: '**',
     redirectTo: 'home', // <-- Change de 'login' à 'home' ou garde login
   },
