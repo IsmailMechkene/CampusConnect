@@ -43,6 +43,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'my-shop/:id',
+    loadComponent: () => import('./features/my-shop/inspect-shop/inspect-shop').then((m) => m.InspectShop),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'checkout',
     loadComponent: () => import('./features/checkout/checkout').then((m) => m.Checkout),
     canActivate: [AuthGuard],

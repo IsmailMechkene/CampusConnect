@@ -82,10 +82,12 @@ router.post(
   ]),
   async (req: Request, res: Response) => {
     try {
+      const data = req.body.data ? JSON.parse(req.body.data) : req.body;
       const {
         brandName,
         moto,
         description,
+        keyword,
         brandEmail,
         phoneNumber,
         tag1,
@@ -119,7 +121,8 @@ router.post(
         data: {
           owner_id: ownerId,
           brandName: brandName,
-          moto: moto || "keyword",
+          moto: moto,
+          keyword: keyword,
           description,
           brandEmail: brandEmail || null,
           phoneNumber: phoneNumber || null,
@@ -182,6 +185,7 @@ router.put(
         brandName,
         moto,
         description,
+        keyword,
         brandEmail,
         phoneNumber,
         tag1,
@@ -197,8 +201,9 @@ router.put(
 
       const updateData: any = {
         name: brandName || shop.brandName,
-        keyword: moto || shop.moto,
+        moto: moto || shop.moto,
         description: description ?? shop.description,
+        keyword: keyword || shop.keyword,
         brandEmail: brandEmail ?? shop.brandEmail,
         phoneNumber: phoneNumber ?? shop.phoneNumber,
 
@@ -281,10 +286,25 @@ router.get("/my-shop", authenticateJWT, async (req: AuthRequest, res) => {
       where: { owner_id: userId },
       select: {
         id: true,
-        name: true,
+        brandName: true,
         description: true,
         owner_id: true,
         created_at: true,
+        moto: true,
+        keyword: true,
+        brandEmail: true,
+        phoneNumber: true,
+        tag1: true,
+        tag2: true,
+        tag3: true,
+        tag4: true,
+        instagram: true,
+        facebook: true,
+        linkedin: true,
+        x: true,
+        tiktok: true,
+        logo: true,
+        banner_image: true,
       },
     });
 
