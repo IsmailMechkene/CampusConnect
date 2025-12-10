@@ -44,7 +44,7 @@
           <p class="shop-motto">{{ shopDetails.motto }}</p>
           <p class="shop-description">{{ shopDetails.description }}</p>
           <div class="shop-actions">
-            <button class="modify-btn" (click)="openModifyShopModal()">
+            <button *ngIf="isOwner" class="modify-btn" (click)="openModifyShopModal()">
               <svg
                 width="16"
                 height="16"
@@ -58,7 +58,7 @@
               </svg>
               Modify Shop
             </button>
-            <button class="delete-btn" (click)="openDeleteShopModal()">
+            <button *ngIf="isOwner" class="delete-btn" (click)="openDeleteShopModal()">
               <svg
                 width="16"
                 height="16"
