@@ -35,3 +35,8 @@ export interface Shop {
   reviewCount?: number | null;
   tags?: string[] | null;
 }
+
+export interface ShopStatusResponse {
+  hasShop: boolean;
+  shop?: Shop;
+}
