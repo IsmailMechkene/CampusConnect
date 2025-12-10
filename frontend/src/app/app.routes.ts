@@ -53,6 +53,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/contact/contact').then((m) => m.Contact),
     canActivate: [AuthGuard],
   },
+  { path: 'about-us',
+    loadComponent: () => import('./features/about-us/about-us').then((m) => m.AboutUs),
+    canActivate: [AuthGuard],
+  },
   {
     path: '**',
     redirectTo: 'home', // <-- Change de 'login' à 'home' ou garde login
