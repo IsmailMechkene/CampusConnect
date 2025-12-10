@@ -3,7 +3,8 @@ import { Header } from '../../shared/components/header/header';
 import { Footer } from '../../shared/components/footer/footer';
 import { CreateShop } from './create-shop/create-shop';
 import { InspectShop } from './inspect-shop/inspect-shop';
-import { ShopService, ShopStatusResponse, Shop } from '../../services/shopService.service';
+import { ShopService, ShopStatusResponse} from '../../services/shopService.service';
+import { Shop } from '../../shared/models/shop.model';
 
 @Component({
   selector: 'app-my-shop',
