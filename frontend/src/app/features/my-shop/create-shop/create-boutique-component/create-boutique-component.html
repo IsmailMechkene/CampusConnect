@@ -47,24 +47,26 @@
       </div>
 
       <div class="field">
-        <label>Keyword <span class="req">*</span></label>
-        <input
-          name="keyword"
-          [(ngModel)]="model.keyword"
-          required
-          pattern="^\\S+$"
-          maxlength="12"
-          #keywordModel="ngModel"
-        />
+      <label>Keyword <span class="req">*</span></label>
+      <input
+        name="keyword"
+        [(ngModel)]="model.keyword"
+        required
+        pattern="^[^\s]+$"
+        maxlength="12"
+        #keywordModel="ngModel"
+      />
 
-        <div class="error" *ngIf="myForm.submitted && keywordModel?.errors">
-          <div *ngIf="keywordModel?.errors?.['required']">Keyword is required.</div>
-          <div *ngIf="keywordModel?.errors?.['pattern']">Keyword must be a single word.</div>
-          <div *ngIf="keywordModel?.errors?.['maxlength']">
-            Keyword cannot exceed 12 characters.
-          </div>
+      <div class="error" *ngIf="myForm.submitted && keywordModel?.errors">
+        <div *ngIf="keywordModel?.errors?.['required']">Keyword is required.</div>
+        <div *ngIf="keywordModel?.errors?.['pattern']">
+          Keyword must be a single word with no spaces.
+        </div>
+        <div *ngIf="keywordModel?.errors?.['maxlength']">
+          Keyword cannot exceed 12 characters.
         </div>
       </div>
+    </div>
 
       <div class="field">
         <label>Brand E-Mail</label>
