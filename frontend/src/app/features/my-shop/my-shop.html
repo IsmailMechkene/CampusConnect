@@ -2,11 +2,8 @@
   <app-header></app-header>
 
   <div class="my-shop-container">
-    <!-- show create shop when user has no shop -->
     <app-create-shop *ngIf="!hasShop"></app-create-shop>
 
-    <!-- show inspect shop when user has a shop -->
-    <!-- pass data to inspect-shop via input (if InspectShop exposes one), otherwise it will fetch its own data -->
     <app-inspect-shop *ngIf="hasShop"></app-inspect-shop>
   </div>
 

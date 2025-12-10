@@ -111,12 +111,9 @@ export class InspectShop implements OnInit, OnDestroy {
   ngOnInit(): void {
     const shopId = this.route.snapshot.paramMap.get('id') || 'shop-1';
     this.loadShopData(shopId);
-    this.checkOwnershop(shopId);
+    this.checkOwnership(shopId);
   }
 
-  /**
-   * Component cleanup
-   */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

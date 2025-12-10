@@ -9,14 +9,14 @@ import { Shop } from '../../shared/models/shop.model';
 
 @Component({
   selector: 'app-my-shop',
-  standalone: true,                // <-- IMPORTANT: make this standalone
+  standalone: true,            
   imports: [CommonModule, Header, Footer, CreateShop, InspectShop],
   templateUrl: './my-shop.html',
   styleUrls: ['./my-shop.css'],
 })
 export class MyShop implements OnInit {
   hasShop = false;
-  myShop?: Shop; //'Shop | undefined'
+  myShop?: Shop;
 
   constructor(private shopService: ShopService) {}
 
