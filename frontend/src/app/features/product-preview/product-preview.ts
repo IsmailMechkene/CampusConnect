@@ -19,9 +19,8 @@ export class ProductPreview {
 
   constructor(private cartService: CartService, private router: Router) { }
 
-  // TODO: integrate with backend
   quantity = signal(1);
-  selectedImage = signal('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600');
+  selectedImage = signal('/images/bracelet-shop/red.png');
   selectedColor = signal('#E91E63');
   selectedSize = signal('M');
   activeTab = signal('Description');
@@ -29,31 +28,31 @@ export class ProductPreview {
   tabs = ['Description', 'Specifications', 'Reviews'];
 
   product = {
-    id : 20,
-    name: 'Cat Bracelet',
+    id: 20,
+    name: 'Bracelets',
     category: 'Accessories',
-    price: 12.99,
+    price: 29.99,
     originalPrice: 18.99,
-    description: 'Handcrafted beaded bracelet with cute cat charm. Perfect accessory for cat lovers and students who want to add personality to their style.',
-    fullDescription: 'This adorable cat bracelet features high-quality beads and a charming cat pendant. Each piece is carefully handcrafted by local campus artisans. The adjustable design ensures a comfortable fit for any wrist size. Made with durable materials that are perfect for everyday wear.',
+    description: 'Handcrafted with care, this bracelet blends simplicity and elegance in every detail. Designed to elevate any outfit, it’s the perfect everyday accessory for a soft, refined touch.',
+    fullDescription: 'Handcrafted with care, this bracelet blends simplicity and elegance in every detail. Each bead is thoughtfully selected to create a balanced, refined design that feels both modern and timeless. Lightweight and comfortable, it pairs effortlessly with any style — from casual outfits to dressed-up looks. Whether worn alone or stacked with your favorite pieces, it adds a soft, graceful touch that enhances your everyday aesthetic.',
     reviews: 48,
     stock: 15,
     images: [
-      'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600',
-      'https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=600',
-      'https://images.unsplash.com/photo-1611652022419-a9419f74343a?w=600',
-      'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600'
+      '/images/bracelet-shop/blue.png',
+      '/images/bracelet-shop/green.png',
+      '/images/bracelet-shop/purple.png',
+      '/images/bracelet-shop/red.png'
     ],
     colors: ['#E91E63', '#9C27B0', '#2196F3', '#4CAF50'],
     sizes: ['S', 'M', 'L'],
     specifications: [
-      { label: 'Material', value: 'Glass beads, metal charm' },
-      { label: 'Length', value: 'Adjustable 6-8 inches' },
-      { label: 'Weight', value: '15g' },
-      { label: 'Care', value: 'Avoid water exposure' }
+      { label: 'Material', value: 'High-quality beads and stainless steel accents' },
+      { label: 'Fit', value: 'Adjustable for most wrist sizes' },
+      { label: 'Weight', value: 'Lightweight and comfortable for daily wear' },
+      { label: 'Care', value: 'Keep away from water and perfumes to maintain shine' }
     ],
-    // TODO: modify shopName when integrating with backend
-    shopName: 'Bracelet shop'
+
+    shopName: 'StickNation'
   };
 
   increaseQuantity() {
@@ -74,7 +73,7 @@ export class ProductPreview {
 
   onAddToCart(event: Event): void {
     event.stopPropagation();
-    
+
     // Create cart item from product
     const cartItem: CartItem = {
       id: `cart-${Date.now()}-${this.product.id}`,

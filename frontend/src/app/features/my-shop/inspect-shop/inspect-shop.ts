@@ -111,12 +111,9 @@ export class InspectShop implements OnInit, OnDestroy {
   ngOnInit(): void {
     const shopId = this.route.snapshot.paramMap.get('id') || 'shop-1';
     this.loadShopData(shopId);
-    this.checkOwnershop(shopId);
+    this.checkOwnership(shopId);
   }
 
-  /**
-   * Component cleanup
-   */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -189,24 +186,13 @@ export class InspectShop implements OnInit, OnDestroy {
     } as ShopDetails;
   }
 
-  /**
-   * Check if current user is the shop owner
-   */
-  private checkOwnershop(shopId: string): void {
+
+  private checkOwnership(shopId: string): void {
     const currentUser = this.authService.getCurrentUser();
-    // if (this.shopDetails && currentUser) {
-    //   this.isOwner = this.shopDetails.ownerId === currentUser.id;
-    // } else {
-    //   this.isOwner = false;
-    // }
     this.isOwner = true;
   }
 
-  /**
-   * Apply filters to products
-   */
   applyFilters(): void {
-    // Build filters from UI state
     const filters: ProductFilters = {
       status: [],
       availability: [],

@@ -10,67 +10,41 @@ import { Product, ProductFilters } from '../shared/models/product.model';
 })
 export class ProductService {
 
-  /**
-   * BehaviorSubject to hold all products
-   */
+
   private productsSubject = new BehaviorSubject<Product[]>(this.getAllMockProducts());
 
-  /**
-   * Observable of products
-   */
   public products$: Observable<Product[]> = this.productsSubject.asObservable();
 
   constructor() { }
 
-  /**
-   * Get all products
-   */
   getAllProducts(): Observable<Product[]> {
     return this.products$;
   }
 
-  /**
-   * Get products by shop ID
-   * @param shopId Shop ID
-   */
   getProductsByShopId(shopId: string): Observable<Product[]> {
     return this.products$.pipe(
       map(products => products.filter(p => p.shopId === shopId))
     );
   }
 
-  /**
-   * Get trending products
-   */
   getTrendingProducts(): Observable<Product[]> {
     return this.products$.pipe(
       map(products => products.filter(p => p.isTrending))
     );
   }
 
-  /**
-   * Get newly added products
-   */
   getNewProducts(): Observable<Product[]> {
     return this.products$.pipe(
       map(products => products.filter(p => p.isNew))
     );
   }
 
-  /**
-   * Get product by ID
-   * @param id Product ID
-   */
   getProductById(id: string): Observable<Product | undefined> {
     return this.products$.pipe(
       map(products => products.find(product => product.id === id))
     );
   }
 
-  /**
-   * Add new product
-   * @param product Product to add
-   */
   addProduct(product: Product): Observable<Product> {
     const currentProducts = this.productsSubject.value;
     const newProduct = {
@@ -83,11 +57,6 @@ export class ProductService {
     return of(newProduct);
   }
 
-  /**
-   * Update product
-   * @param id Product ID
-   * @param updates Partial product updates
-   */
   updateProduct(id: string, updates: Partial<Product>): Observable<Product | null> {
     const currentProducts = this.productsSubject.value;
     const index = currentProducts.findIndex(p => p.id === id);
@@ -102,10 +71,6 @@ export class ProductService {
     return of(null);
   }
 
-  /**
-   * Delete product
-   * @param id Product ID
-   */
   deleteProduct(id: string): Observable<boolean> {
     const currentProducts = this.productsSubject.value;
     const filteredProducts = currentProducts.filter(p => p.id !== id);
@@ -113,11 +78,6 @@ export class ProductService {
     return of(true);
   }
 
-  /**
-   * Filter products
-   * @param shopId Shop ID
-   * @param filters Product filters
-   */
   filterProducts(shopId: string, filters: ProductFilters): Observable<Product[]> {
     return this.getProductsByShopId(shopId).pipe(
       map(products => {
@@ -163,9 +123,6 @@ export class ProductService {
     );
   }
 
-  /**
-   * Get all mock products (including existing ones)
-   */
   private getAllMockProducts(): Product[] {
     return [
       // Shop 1 products (Spark Agency)

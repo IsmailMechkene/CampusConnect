@@ -1,16 +1,18 @@
 <div class="container">
     <h1>Featured Shops</h1>
+    <p>Find your next favorite store right here.</p>
+
     <div class="shops-container">
         <app-shop-component
-            *ngFor="let shop of shops; let i = index"
-            [background]="colors[i % colors.length]"
+            *ngFor="let shop of shops"
+            [background]="shop.background"
             [shop]="shop"
         ></app-shop-component>
     </div>
-    <div class="explore-all-button-container" >
+
+    <div class="explore-all-button-container">
         <button class="explore-all-button">
             See All Shops →
         </button>
-
     </div>
 </div>

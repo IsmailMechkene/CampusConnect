@@ -1,0 +1,51 @@
+<div class="favourite-section">
+  <app-header></app-header>
+  <header class="header">
+    <img src="/images/shop/top-left.svg" alt="" class="top-left" />
+    <img src="/images/shop/top-right.svg" alt="" class="top-right" />
+
+    <h2 class="title1">Your favourites</h2>
+
+    <p>Products and stores you liked — saved locally in your browser.</p>
+  </header>
+  <div class="container">
+    <header class="top">
+      <div class="controls">
+        <button class="btn-clear" (click)="clearAll()" [disabled]="products.length === 0">
+          Clear all
+        </button>
+        <div class="count">{{ products.length }} item{{ products.length !== 1 ? 's' : '' }}</div>
+      </div>
+    </header>
+
+    <section class="grid" *ngIf="products.length > 0; else empty">
+      <article class="card" *ngFor="let p of products; trackBy: trackById">
+        <div class="media">
+          <img [src]="p.image || '/images/product-placeholder.png'" [alt]="p.name" />
+        </div>
+
+        <div class="info">
+          <div class="row">
+            <h3 class="name">{{ p.name }}</h3>
+            <button class="remove" (click)="remove(p.id)" title="Remove favourite">Remove</button>
+          </div>
+
+          <p class="desc">{{ p.description }}</p>
+
+          <div class="meta">
+            <div class="price">{{ p.price ?? '—' }} DT</div>
+            <div class="stock">{{ p.stock ?? 0 }} in stock</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <ng-template #empty>
+      <div class="empty">
+        <p>No favourites yet — like some products to see them here.</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <app-footer></app-footer>
+</div>

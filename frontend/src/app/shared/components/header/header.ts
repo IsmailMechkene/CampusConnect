@@ -58,15 +58,13 @@ export class Header {
           }
         },
         error: () => {
-          // On error (e.g. not authenticated), still navigate to create-shop page
           this.router.navigate(['/my-shop']);
         },
       });
   }
 
   navigateToFavorites(): void {
-    console.log('Navigate to favorites');
-    //TODO: Implement favorites navigation
+    this.router.navigate(['/favourites']);
   }
 
   @HostListener('window:scroll', [])

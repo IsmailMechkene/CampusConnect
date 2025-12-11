@@ -137,17 +137,4 @@ export class AuthService {
       shopId: 'shop-1'
     };
   }
-
-  // Login Aziz
-  // login(email: string, password: string): Observable<User> {
-  //   // Mock login - in production, this would call API
-  //   const user = this.getMockUser();
-  //   this.currentUserSubject.next(user);
-  //   return new BehaviorSubject<User>(user).asObservable();
-  // }
-
-  // // logout Aziz
-  // logout(): void {
-  //   this.currentUserSubject.next(null);
-  // }
 }
