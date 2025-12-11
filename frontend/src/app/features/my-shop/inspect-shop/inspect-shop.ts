@@ -192,7 +192,7 @@ export class InspectShop implements OnInit, OnDestroy {
   /**
    * Check if current user is the shop owner
    */
-  private checkOwnership(shopId: string): void {
+  private checkOwnershop(shopId: string): void {
     const currentUser = this.authService.getCurrentUser();
     // if (this.shopDetails && currentUser) {
     //   this.isOwner = this.shopDetails.ownerId === currentUser.id;
